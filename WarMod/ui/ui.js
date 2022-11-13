@@ -7,23 +7,17 @@ var team2 = document.getElementById("team2")
 var teamheader = document.getElementById("teamname")
 
 var teams = ["Team1","Team2"]
+var state = true
 
 AddEventListeners(team1,"rgba(218,232,252,1)","rgba(190,202,219,1)",0)
 AddEventListeners(team2,"rgba(248,206,204,1)","rgba(191,159,157,1)",1)
 Hideobj(section_left);
 Hideobj(section_right);
-$(function(){
-    window.onload = function(e){
-        window.addEventListener("message", (event) =>{
-            var item = event.data;
-            if(item !== undefined && item.type === "ui"){
-                if(item.display === true){
-                    $('article').show();
-                } else{
-                    $('article').hide();
-                }
-            }
-        })
+window.addEventListener("message",function(event){
+    if(state){
+        $('#article').show();
+    } else{
+        $('#article').hide();
     }
 })
 
