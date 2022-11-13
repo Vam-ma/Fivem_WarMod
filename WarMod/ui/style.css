@@ -1,0 +1,88 @@
+*{
+    margin: 1em;
+}
+body{
+    background-color: rgba(100, 100, 100, 0.05);
+}
+header{
+    min-height: 90%;
+    height: auto;
+    margin: 1.25em 3% 1.25em 3%;
+    text-align: center;
+    background-color: #61755e;
+    border: 5px solid #1b3009;
+    border-radius: 4em;
+}
+#left{
+    display:block;
+    position: absolute;
+    left: 5%;
+    top: 25%;
+    width: 15%;
+    height: 65%;
+    padding: 0% 5% 0% 5%;
+    background-color: #61755e;
+    border: 5px solid #1b3009;
+    border-radius: 4em;
+    text-align: center;
+}
+#right{
+    display:block;
+    position: absolute;
+    right: 5%;
+    top: 25%;
+    width: 15%;
+    height: 65%;
+    padding: 0% 5% 0% 5%;
+    background-color: #61755e;
+    border: 5px solid #1b3009;
+    border-radius: 4em;
+    text-align: center;
+}
+#center{
+    display:block;
+    position: absolute;
+    left: 36%;
+    top: 25%;
+    width: 15%;
+    height: 65%;
+    padding: 0% 5% 0% 5%;
+    background-color: #61755e;
+    border: 5px solid #1b3009;
+    border-radius: 4em;
+    text-align: center;
+}
+#team1{
+    display:block;
+    position: absolute;
+    left: 0%;
+    top: 20%;
+    width: 92%;
+    height: 25%;
+    background-color: #DAE8FC;
+    border: 4px solid #000000;
+    border-radius: 1em;
+    text-align: center;
+}
+#team2{
+    display: block;
+    position: absolute;
+    left: 0%;
+    top: 50%;
+    width: 92%;
+    height: 25%;
+    background-color: #F8CECC;
+    border: 4px solid #000000;
+    border-radius: 1em;
+    text-align: center;
+}
+h1{
+    color: #bfbfbf;
+    text-align: center;
+    font-size: 3em;
+}
+.teamh1{
+    color: #000000;
+    text-align: center;
+    font-size: 3em;
+}
