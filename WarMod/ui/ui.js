@@ -21,24 +21,14 @@ window.addEventListener("message",function(event){
     }
 })
 
-function AddEventListeners(obj, basecolor, highlightColor,team){
-    obj.addEventListener("mouseover", function()
-    {
-        obj.style.backgroundColor=highlightColor;
-    });
-    obj.addEventListener("mouseleave", function()
-    {
-        obj.style.backgroundColor=basecolor; 
-    });
-    obj.addEventListener("click", function()
-    {
-        Hideobj(team1);
-        Hideobj(team2);
-        Showobj(section_left);
-        Showobj(section_right);
-        PickTeam(team)
-    });
+input.addEventListener('keypress', getKey);
+
+function getKey(key){
+    if(key.code === 27){
+        $.post('http://warmod/keyevent', JSON.stringify("27"))
+    }
 }
+
 function Hideobj(obj){
     obj.style.display = "none"
 }
