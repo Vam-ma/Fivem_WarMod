@@ -9,8 +9,6 @@ var teamheader = document.getElementById("teamname")
 var teams = ["Team1","Team2"]
 var state = true
 
-const input = document.querySelector('input');
-
 AddEventListeners(team1,"rgba(218,232,252,1)","rgba(190,202,219,1)",0)
 AddEventListeners(team2,"rgba(248,206,204,1)","rgba(191,159,157,1)",1)
 Hideobj(section_left);
@@ -41,13 +39,7 @@ function AddEventListeners(obj, basecolor, highlightColor,team){
         PickTeam(team)
     });
 }
-input.addEventListener('keypress', getKey);
 
-function getKey(key){
-    if(key.code === 27){
-        $.post('http://warmod/keyevent', JSON.stringify("27"))
-    }
-}
 function Hideobj(obj){
     obj.style.display = "none"
 }
@@ -56,4 +48,5 @@ function Showobj(obj){
 }
 function PickTeam(team){
 teamheader.innerHTML = teams[team];
+$.post('http://warmod/keyevent', JSON.stringify("27"))
 }
