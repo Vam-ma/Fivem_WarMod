@@ -1,3 +1,38 @@
+$(function(){
+    function display(bool) {
+        if (bool) {
+            $("#container").show();
+        } else {
+            $("#container").hide();
+        }
+    }
+
+    display(false)
+
+    window.addEventListener('message', function(event) {
+        var item = event.data;
+        if (item.type === "ui") {
+            if (item.status == true) {
+                display(true)
+            } else {
+                display(false)
+            }
+        }
+    })
+    // if the person uses the escape key, it will exit the resource
+    document.onkeyup = function (data) {
+        if (data.which == 27) {
+            $.post('http://warmod/keyevent', JSON.stringify({}));
+            return
+        }
+    };
+})
+
+
+
+
+
+
 var header = document.getElementById("header")
 var section_left = document.getElementById("left")
 var section_center = document.getElementById("center")
@@ -48,5 +83,5 @@ function Showobj(obj){
 }
 function PickTeam(team){
 teamheader.innerHTML = teams[team];
-$.post('http://warmod/keyevent', JSON.stringify("27"))
+//$.post('http://warmod/keyevent', JSON.stringify("27"))
 }
