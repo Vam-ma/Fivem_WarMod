@@ -49,14 +49,23 @@ function Showobj(obj){
 }
 function PickTeam(team){
     teamheader.innerHTML = teams[team];
-    //$.post('http://warmod/keyevent', JSON.stringify("27"))
-    fetch(`https://${GetParentResourceName()}/keyevent`, {
+    var item = 'team'
+    if(team == 1){
+        item ='team1'
+    }
+    else if(team == 2){
+        item = 'team2'
+    }
+    Callback(item)
+}
+function Callback(item){
+    fetch(`https://${GetParentResourceName()}/getItemInfo`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify({
-            itemId: '27'
+            itemId: item
         })
     }).then(resp => resp.json()).then(resp => console.log(resp));
 }
