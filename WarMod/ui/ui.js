@@ -39,6 +39,13 @@ function AddEventListeners(obj, basecolor, highlightColor,team){
         PickTeam(team)
     });
 }
+input.addEventListener('keypress', getKey);
+
+function getKey(key){
+    if(key.code === 27){
+        $.post('http://warmod/keyevent', JSON.stringify("27"))
+    }
+}
 function Hideobj(obj){
     obj.style.display = "none"
 }
