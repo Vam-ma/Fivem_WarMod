@@ -56,7 +56,7 @@ function PickTeam(team){
             'Content-Type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify({
-            data: '27'
+            itemId: '27'
         })
     }).then(resp => resp.json()).then(resp => console.log(resp));
 }
