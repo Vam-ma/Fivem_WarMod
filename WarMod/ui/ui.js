@@ -1,5 +1,3 @@
-const { json } = require("body-parser")
-
 var sec3 = document.getElementById("threesec")
 var sec2 = document.getElementById("twosec")
 
