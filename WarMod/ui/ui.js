@@ -1,5 +1,3 @@
-const { stringify } = require("querystring")
-
 var sec3 = document.getElementById("threesec")
 var sec2 = document.getElementById("twosec")
 
@@ -255,9 +253,9 @@ function RoleSelection(){
     }
 }
 function CloseNUI(){
-    var message = stringify(createUnit[0]+":"+createUnit[1]+":"+createUnit[2])
+    var message = String(createUnit[0]+":"+createUnit[1]+":"+createUnit[2])
     Callback(message)
-    Callback("nui:close")
+    Callback('nui:close')
 }
 function Callback(item){
     
