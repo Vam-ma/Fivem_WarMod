@@ -258,7 +258,7 @@ function CloseNUI(){
     Callback("nui:close")
 }
 function Callback(item){
-    /*
+    
     fetch(`https://${GetParentResourceName()}/getItemInfo`, {
         method: 'POST',
         headers: {
@@ -268,5 +268,5 @@ function Callback(item){
             itemId: item
         })
     }).then(resp => resp.json()).then(resp => console.log(resp));
-    */
+    
 }
