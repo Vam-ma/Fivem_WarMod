@@ -256,17 +256,18 @@ function RoleSelection(){
     }
 }
 function CloseNUI(){
+    
     fetch(`https://${GetParentResourceName()}/getItemInfo`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify({
-            team: createUnit[0] -1,
-            character: createUnit[1] -1,
-            unittype: createUnit[2] -1,
-            role: createUnit[3] -1,
-            action: 'nui:close'
+            'team': createUnit[0] -1,
+            'character': createUnit[1] -1,
+            'unittype': createUnit[2] -1,
+            'role': createUnit[3] -1,
+            'action': 'nui:close'
         })
     }).then(resp => resp.json()).then(resp => console.log(resp));
 }
