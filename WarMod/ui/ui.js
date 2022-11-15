@@ -21,7 +21,7 @@ AddEventListeners(section_left2,"rgba(218,232,252,1)","rgba(190,202,219,1)","two
 AddEventListeners(section_right2,"rgba(248,206,204,1)","rgba(191,159,157,1)", "tworight")
 Hideobj(sec3);
 ColumnStyles();
-createUnit = [0,0,0]
+createUnit = [0,0,0,0]
 menu = 0
 window.addEventListener("message", (event) =>{
     var data = event.data
@@ -240,22 +240,35 @@ function CreateUnitTypeList(){
     }
     
 }
+function SetRole(role){
+    createUnit[3] = role
+}
 function RoleSelection(){
     if(createUnit[2]>=1 && menu === 2){
         for(var child in section_left.children){
             section_left.removeChild(section_left.firstChild)
         }
         for(var i = 0; i < roles.length; i++){
-            CElement(section_left,"h3",roles[i],SelectUnitType, i+1)
+            CElement(section_left,"h3",roles[i],SetRole, i+1)
         }
         menu += 1
         ContinueButton(section_left,CloseNUI)
     }
 }
 function CloseNUI(){
-    var message = String(createUnit[0]+":"+createUnit[1]+":"+createUnit[2])
-    Callback(message)
-    Callback('nui:close')
+    fetch(`https://${GetParentResourceName()}/getItemInfo`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({
+            team: createUnit[0] -1,
+            character: createUnit[1] -1,
+            unittype: createUnit[2] -1,
+            role: createUnit[3] -1,
+            action: 'nui:close'
+        })
+    }).then(resp => resp.json()).then(resp => console.log(resp));
 }
 function Callback(item){
     
