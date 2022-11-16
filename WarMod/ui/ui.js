@@ -28,6 +28,7 @@ ColumnStyles();
 createUnit = [0,0,0,0]
 menu = 0
 
+var roleConfirmed = false;
 var teamUnits = [0,0,0,0,0,0,0,0]
 var groups = ["Group 1","Group 2","Group 3","Group 4","Group 5","Group 6","Group 7","Group 8","Group 9","Group 10"]
 window.addEventListener("message", (event) =>{
@@ -53,6 +54,7 @@ window.addEventListener("message", (event) =>{
         } else if(createUnit[3] == 3){
             AddHeaderText("Soldier")
         }
+        roleConfirmed = true;
     }
     if(data.action.includes("players")){
         var team1 = data.action.split(';')[1];
@@ -301,7 +303,9 @@ function RoleSelection(){
     }
 }
 function CloseNUI(){
-    MainScriptCallback( "role:" + createUnit[3].toString())
+    if(roleConfirmed === false) {
+        MainScriptCallback( "role:" + createUnit[3].toString())
+    }
     CreateGameMenu()
     MainScriptCallback('close')
 }
@@ -480,7 +484,10 @@ function CreatePlayersColumn(team1, team2){
 }
 function TeamList(data, team, parent){
     for(var i = 0; i< 100; i++){
-        parent.removeChild(firstChild)
+        try{
+            parent.removeChild(firstChild)
+        }
+        catch{}
     }
     var players = data.split(':');
     var h2 = document.createElement("h2");
@@ -494,9 +501,7 @@ function TeamList(data, team, parent){
             ptext += "Commander  :   " + players[i].toString() + "\n\r";
         }
         else if(i<11){
-            if(i===0){
-                ptext == ptext + "Group "+ i.toString() + "Leader  :   " + players[i].toString() + "\n\r";
-            }
+            ptext == ptext + "Group "+ i.toString() + "Leader  :   " + players[i].toString() + "\n\r";
         }
         else{
             ptext == ptext + players[i].toString() + "\n\r";
