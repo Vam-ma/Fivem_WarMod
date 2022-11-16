@@ -192,11 +192,6 @@ function SelectUnit(team, unit){
         })
     }).then(resp => resp.json()).then(
         function(resp) {
-            console.log(resp)
-            if(resp === "close"){
-                Hideobj(header)
-                Hideobj(sec3)
-            }
         } 
         
     );
