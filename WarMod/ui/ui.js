@@ -18,6 +18,7 @@ var roles = [
 ]
 var MenuList = ["Groups","Buildings","Units","Shop"]
 var ShopCategories = ["Weapons", "Vehicles", "Gears"]
+CloseButton();
 AddEventListeners(section_left2,"rgba(218,232,252,1)","rgba(190,202,219,1)","twoleft")
 AddEventListeners(section_right2,"rgba(248,206,204,1)","rgba(191,159,157,1)", "tworight")
 Hideobj(sec3);
@@ -420,4 +421,36 @@ function MainScriptCallback(message){
     catch{
         console.log("Can't send message to main script")
     }
+}
+function CloseButton(){
+    var p = document.createElement("h1");
+    p.className = "txtheader"
+    p.style.color = "rgba(22,230,219,1)"
+    p.style.fontSize = "4em"
+    p.style.display = "block"
+    p.style.position = "absolute"
+    p.style.right = "0"
+    p.style.top = "0%"
+    p.style.fontFamily = "monospace"
+    p.style.padding = "0.4% 5% 0.4% 5%"
+    p.style.backgroundColor = "rgba(10,10,10,1)"
+    p.addEventListener("mouseover", function()
+    {
+        p.style.backgroundColor="rgba(20,20,20,1)";
+        p.style.color = "rgba(200,0,0,1)"
+        //ColumnChildMouseOver(section_left)
+    });
+    p.addEventListener("mouseleave", function()
+    {
+        p.style.backgroundColor="rgba(10,10,10,1)";
+        p.style.color = "rgba(22,230,219,1)"
+        //ColumnChildMouseLeave(section_left)
+    });
+    p.addEventListener("click", function()
+    {
+        CloseNUI();
+    });
+    var text = document.createTextNode("X");
+    p.appendChild(text);
+    header.appendChild(p);
 }
