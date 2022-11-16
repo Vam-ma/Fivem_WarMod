@@ -5,6 +5,8 @@ var header = document.getElementById("header")
 var section_left = document.getElementById("threeleft")
 var section_center = document.getElementById("threecenter")
 var section_right = document.getElementById("threeright")
+var right_one = document.getElementById("threerightone");
+var right_two = document.getElementById("threerighttwo");
 var section_left2 = document.getElementById("twoleft")
 var section_right2 = document.getElementById("tworight")
 var imgdiv = document.getElementById("img")
@@ -51,6 +53,11 @@ window.addEventListener("message", (event) =>{
         } else if(createUnit[3] == 3){
             AddHeaderText("Soldier")
         }
+    }
+    if(data.action.includes("players")){
+        var team1 = data.action.split(';')[1];
+        var team2 = data.action.split(';')[2];
+        CreatePlayersColumn(team1, team2);
     }
 })
 
@@ -275,7 +282,6 @@ function CreateUnitTypeList(){
 }
 function SetRole(role){
     createUnit[3] = role
-    MainScriptCallback( "role:" + role.toString())
 }
 function RoleSelection(){
     if(createUnit[2]>=1 && menu === 2){
@@ -295,6 +301,7 @@ function RoleSelection(){
     }
 }
 function CloseNUI(){
+    MainScriptCallback( "role:" + createUnit[3].toString())
     CreateGameMenu()
     MainScriptCallback('close')
 }
@@ -465,4 +472,34 @@ function CloseButton(){
     var text = document.createTextNode("X");
     p.appendChild(text);
     header.appendChild(p);
+}
+function CreatePlayersColumn(team1, team2){
+    Showobj(section_right);
+    TeamList(team1, teams[0],right_one)
+    TeamList(team2, teams[1],right_two)
+}
+function TeamList(data, team, parent){
+    var players = data.split(':');
+    var h2 = document.createElement("h2");
+    var h2text = document.createTextNode(team.toString());
+    p.appendChild(h2text);
+    parent.appendChild(h2);
+    var p = document.createElement("p");
+    var ptext = "";
+    for(var i = 0; i< players.length; i++){
+        if(i===0){
+            ptext += "Commander  :   " + players[i].toString() + "<br>";
+        }
+        else if(i<11){
+            if(i===0){
+                ptext += "Group "+ i.toString() + "Leader  :   " + players[i].toString() + "<br>";
+            }
+        }
+        else{
+            ptext += players[i].toString() + "<br>";
+        }
+    }
+    var text = document.createTextNode(ptext);
+    p.appendChild(text);
+    parent.appendChild(p);
 }
