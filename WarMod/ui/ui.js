@@ -275,7 +275,7 @@ function CreateUnitTypeList(){
 }
 function SetRole(role){
     createUnit[3] = role
-    MainScriptCallback(role.toString())
+    MainScriptCallback( "role:" + role.toString())
 }
 function RoleSelection(){
     if(createUnit[2]>=1 && menu === 2){
