@@ -16,13 +16,17 @@ var unitTypes = ["Assault","Support","Scout","Specialist"]
 var roles = [
     "Commander", "Group leader","Soldier"
 ]
-
+var MenuList = ["Groups","Buildings","Units","Shop"]
+var ShopCategories = ["Weapons", "Vehicles", "Gears"]
 AddEventListeners(section_left2,"rgba(218,232,252,1)","rgba(190,202,219,1)","twoleft")
 AddEventListeners(section_right2,"rgba(248,206,204,1)","rgba(191,159,157,1)", "tworight")
 Hideobj(sec3);
 ColumnStyles();
 createUnit = [0,0,0,0]
 menu = 0
+
+var teamUnits = [0,0,0,0,0,0,0,0]
+var groups = ["Group 1","Group 2","Group 3","Group 4","Group 5","Group 6","Group 7","Group 8","Group 9","Group 10"]
 window.addEventListener("message", (event) =>{
     var data = event.data
     if(data.action === "playerlist"){
@@ -31,6 +35,10 @@ window.addEventListener("message", (event) =>{
     if(data.action === "close"){
         Hideobj(header)
         Hideobj(sec3)
+    }
+    if(data.includes("open")){
+        Showobj(header)
+        Showobj(sec3)
     }
 })
 
@@ -182,35 +190,12 @@ function SelectUnit(team, unit){
         createUnit[1] = unit + 5
     }
     var message = "unit:" + createUnit[0].toString() + ":" + createUnit[1].toString();
-    fetch(`https://${GetParentResourceName()}/getItemInfo`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-            itemId: message
-        })
-    }).then(resp => resp.json()).then(
-        function(resp) {
-        } 
-        
-    );
+    MainScriptCallback(message)
 }
 function SelectUnitType(type){
     createUnit[2] = type
     var message = "type:" + createUnit[2].toString();
-    fetch(`https://${GetParentResourceName()}/getItemInfo`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-            itemId: message
-        })
-    }).then(resp => resp.json()).then(
-        function(resp) {
-        } 
-    );
+    MainScriptCallback(message)
 }
 function CElement(parentelement,elementtype, text, cb, param1, param2){
     var p = document.createElement(elementtype);
@@ -234,7 +219,7 @@ function CElement(parentelement,elementtype, text, cb, param1, param2){
     p.appendChild(text);
     parentelement.appendChild(p);
 }
-function ContinueButton(parentelement, cb){
+function ContinueButton(parentelement, cb, replaceText = ""){
     var p = document.createElement("h3");
     p.addEventListener("mouseover", function(){p.style.color = "rgba(71,71,71,1)"});
     p.addEventListener("mouseleave", function(){p.style.color = "rgba(22,230,219,0.7)"});
@@ -247,9 +232,14 @@ function ContinueButton(parentelement, cb){
     p.style.cursor = "pointer";
     p.style.fontSize="2em";
     p.style.padding="0.7em 1em 0.7em 1em";
-    p.style.bottom = "5%"
+    p.style.bottom = "0%"
     p.style.left = "20%"
-    var text = document.createTextNode("Continue");
+    if(replaceText == null || replaceText == ""){
+        var text = document.createTextNode("Continue");
+    }else{
+        var text = document.createTextNode(replaceText);
+    }
+    
     p.appendChild(text);
     parentelement.appendChild(p);
 }
@@ -279,6 +269,11 @@ function RoleSelection(){
         for(var child in section_left.children){
             section_left.removeChild(section_left.firstChild)
         }
+        var p = document.createElement("h2");
+        p.className = "txtheader"
+        var text = document.createTextNode("Select Role");
+        p.appendChild(text);
+        section_left.appendChild(p);
         for(var i = 0; i < roles.length; i++){
             CElement(section_left,"h3",roles[i],SetRole, i+1)
         }
@@ -286,16 +281,123 @@ function RoleSelection(){
         ContinueButton(section_left,CloseNUI)
     }
 }
-
 function CloseNUI(){
+    CreateGameMenu()
+    MainScriptCallback('close')
+}
+function CreateMenu(menuIndex){
+    for(var i = 0; i< 10; i++){
+        try{
+            section_left.removeChild(section_left.firstChild)
+        }
+        catch{
+            
+        }
+    }
+    var p = document.createElement("h2");
+    p.className = "txtheader"
+    var text = document.createTextNode("Select Type");
+    p.appendChild(text);
+    section_left.appendChild(p);
+    if(menuIndex===0){
+        for(var i = 0; i< groups.length;i++){
+            CElement(section_left,"h3",groups[i])
+        }
+    }
+    else if(menuIndex===1){
+
+    }
+    else if(menuIndex===2){
+        MainScriptCallback("units")
+        for(var i = 0; i< teamUnits.length;i++){
+            CElement(section_left,"h3",teamUnits[i])
+        }
+    }
+    else if(menuIndex===3){
+        for(var i = 0; i < ShopCategories.length; i++){
+            CElement(section_left,"h3",ShopCategories[i], ShopMenus, i)
+        }
+    }
+    ContinueButton(section_left,CreateGameMenu,"Back")
+}
+function ShopMenus(menu){
+    for(var i = 0; i< 15; i++){
+        try{
+            section_left.removeChild(section_left.firstChild)
+        }
+        catch{
+            
+        }
+    }
+    var p = document.createElement("h2");
+    p.className = "txtheader"
     
-    fetch(`https://${GetParentResourceName()}/getItemInfo`, {
+    if(menu === 0){
+        ShopWeaponsMenu()
+        var text = document.createTextNode("Weapons");
+        p.appendChild(text);
+        section_left.appendChild(p);
+    } else if(menu === 1){
+        ShopVehiclesMenu()
+        var text = document.createTextNode("Vehicles");
+        p.appendChild(text);
+        section_left.appendChild(p);
+    } else if(menu === 2){
+        ShopGearsMenu()
+        var text = document.createTextNode("Gears");
+        p.appendChild(text);
+        section_left.appendChild(p);
+    }
+    ContinueButton(section_left,CreateGameMenu,"Back")
+}
+function ShopWeaponsMenu(){
+
+}
+function ShopVehiclesMenu(){
+
+}
+function ShopGearsMenu(){
+
+}
+function CreateGameMenu(){
+    if(menu === 3){
+        for(var i = 0; i< 15; i++){
+            try{
+                section_left.removeChild(section_left.firstChild)
+            }
+            catch{
+                
+            }
+        }
+        var p = document.createElement("h2");
+        p.className = "txtheader"
+        var text = document.createTextNode("Main Menu");
+        p.appendChild(text);
+        section_left.appendChild(p);
+        if(createUnit[3] == 1){
+            for( var i = 0; i< MenuList.length;i++){
+                CElement(section_left,"h3",MenuList[i],CreateMenu, i)
+            }
+        }
+        else if(createUnit[3] == 2){
+            CElement(section_left,"h3",MenuList[2],CreateMenu, 2)
+            CElement(section_left,"h3",MenuList[3],CreateMenu, 3)
+        }
+        else if(createUnit[3] == 3){
+            CElement(section_left,"h3",MenuList[3],CreateMenu, 3)
+        }
+    }
+}
+function MainScriptCallback(message){
+    message = message.toString();
+    try{
+        fetch(`https://${GetParentResourceName()}/getItemInfo`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify({
-            itemId: 'close'
+            itemId: message
         })
     }).then(resp => resp.json()).then(
         function(resp) {
@@ -304,7 +406,18 @@ function CloseNUI(){
                 Hideobj(header)
                 Hideobj(sec3)
             }
+            else if(resp.includes("units")){
+                var units = resp.split(":");
+                teamUnits = [0,0,0,0,0,0,0,0];
+                for(var i = 1; i<units.length;i++){
+                    teamUnits[i-1] = units[i];
+                }
+            }
         } 
         
     );
+    }
+    catch{
+        console.log("Can't send message to main script")
+    }
 }
