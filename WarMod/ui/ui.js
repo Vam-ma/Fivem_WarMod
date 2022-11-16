@@ -41,6 +41,17 @@ window.addEventListener("message", (event) =>{
         Showobj(header)
         Showobj(sec3)
     }
+    if(data.action.includes("role")){
+        var newRole = data.action.split(':')[1];
+        createUnit[3] = parseInt(newRole);
+        if(createUnit[3] == 1){
+            AddHeaderText("Commander")
+        } else if(createUnit[3] == 2){
+            AddHeaderText("Group Leader")
+        } else if(createUnit[3] == 3){
+            AddHeaderText("Soldier")
+        }
+    }
 })
 
 function ColumnStyles(){
