@@ -479,6 +479,9 @@ function CreatePlayersColumn(team1, team2){
     TeamList(team2, teams[1],right_two)
 }
 function TeamList(data, team, parent){
+    for(var i = 0; i< 100; i++){
+        parent.removeChild(firstChild)
+    }
     var players = data.split(':');
     var h2 = document.createElement("h2");
     var h2text = document.createTextNode(team.toString());
