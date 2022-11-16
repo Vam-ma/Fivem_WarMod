@@ -181,6 +181,25 @@ function SelectUnit(team, unit){
     else{
         createUnit[1] = unit + 5
     }
+    var message = "unit:" + createUnit[0].toString() + ":" + createUnit[1].toString();
+    fetch(`https://${GetParentResourceName()}/getItemInfo`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({
+            itemId: message
+        })
+    }).then(resp => resp.json()).then(
+        function(resp) {
+            console.log(resp)
+            if(resp === "close"){
+                Hideobj(header)
+                Hideobj(sec3)
+            }
+        } 
+        
+    );
 }
 function SelectUnitType(type){
     createUnit[2] = type
