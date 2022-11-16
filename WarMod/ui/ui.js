@@ -154,7 +154,7 @@ function trigger(button){
             createUnit[0]=1
             Hideobj(sec2)
             Hideobj(section_center)
-            Hideobj(section_right)
+            //Hideobj(section_right)
             Showobj(sec3)
             CreateUnitList(1)
             ContinueButton(section_left,CreateUnitTypeList)
@@ -168,7 +168,7 @@ function trigger(button){
             createUnit[0]=2
             Hideobj(sec2)
             Hideobj(section_center)
-            Hideobj(section_right)
+            //Hideobj(section_right)
             Showobj(sec3)
             CreateUnitList(2)
             ContinueButton(section_left,CreateUnitTypeList)
@@ -488,15 +488,15 @@ function TeamList(data, team, parent){
     var ptext = "";
     for(var i = 0; i< players.length; i++){
         if(i===0){
-            ptext += "Commander  :   " + players[i].toString() + "<br>";
+            ptext += "Commander  :   " + players[i].toString() + "\n\r";
         }
         else if(i<11){
             if(i===0){
-                ptext += "Group "+ i.toString() + "Leader  :   " + players[i].toString() + "<br>";
+                ptext == ptext + "Group "+ i.toString() + "Leader  :   " + players[i].toString() + "\n\r";
             }
         }
         else{
-            ptext += players[i].toString() + "<br>";
+            ptext == ptext + players[i].toString() + "\n\r";
         }
     }
     var text = document.createTextNode(ptext);
