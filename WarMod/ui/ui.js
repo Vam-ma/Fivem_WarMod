@@ -36,7 +36,7 @@ window.addEventListener("message", (event) =>{
         Hideobj(header)
         Hideobj(sec3)
     }
-    if(data.includes("open")){
+    if(data.action === "open"){
         Showobj(header)
         Showobj(sec3)
     }
