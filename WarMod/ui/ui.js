@@ -482,7 +482,7 @@ function TeamList(data, team, parent){
     var players = data.split(':');
     var h2 = document.createElement("h2");
     var h2text = document.createTextNode(team.toString());
-    p.appendChild(h2text);
+    h2.appendChild(h2text);
     parent.appendChild(h2);
     var p = document.createElement("p");
     var ptext = "";
