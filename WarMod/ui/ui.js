@@ -198,6 +198,19 @@ function SelectUnit(team, unit){
 }
 function SelectUnitType(type){
     createUnit[2] = type
+    var message = "type:" + createUnit[2].toString();
+    fetch(`https://${GetParentResourceName()}/getItemInfo`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({
+            itemId: message
+        })
+    }).then(resp => resp.json()).then(
+        function(resp) {
+        } 
+    );
 }
 function CElement(parentelement,elementtype, text, cb, param1, param2){
     var p = document.createElement(elementtype);
