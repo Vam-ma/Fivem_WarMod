@@ -270,5 +270,14 @@ function CloseNUI(){
         body: JSON.stringify({
             itemId: 'close'
         })
-    }).then(resp => resp.json()).then(resp => console.log(resp));
+    }).then(resp => resp.json()).then(
+        function(resp) {
+            console.log(resp)
+            if(resp === "close"){
+                Hideobj(header)
+                Hideobj(sec3)
+            }
+        } 
+        
+    );
 }
