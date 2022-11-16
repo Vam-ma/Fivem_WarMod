@@ -25,8 +25,12 @@ createUnit = [0,0,0,0]
 menu = 0
 window.addEventListener("message", (event) =>{
     var data = event.data
-    if(data.action == "playerlist"){
+    if(data.action === "playerlist"){
 
+    }
+    if(data.action === "close"){
+        Hideobj(header)
+        Hideobj(sec3)
     }
 })
 
@@ -255,6 +259,7 @@ function RoleSelection(){
         ContinueButton(section_left,CloseNUI)
     }
 }
+
 function CloseNUI(){
     
     fetch(`https://${GetParentResourceName()}/getItemInfo`, {
@@ -266,17 +271,4 @@ function CloseNUI(){
             itemId: 'close'
         })
     }).then(resp => resp.json()).then(resp => console.log(resp));
-}
-function Callback(item){
-    
-    fetch(`https://${GetParentResourceName()}/getItemInfo`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: JSON.stringify({
-            itemId: item
-        })
-    }).then(resp => resp.json()).then(resp => console.log(resp));
-    
 }
