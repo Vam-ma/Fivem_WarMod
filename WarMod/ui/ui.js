@@ -1,36 +1,39 @@
+var header = document.getElementById("header")
+
 var sec3 = document.getElementById("threesec")
 var sec2 = document.getElementById("twosec")
 
-var header = document.getElementById("header")
+
 var section_left = document.getElementById("threeleft")
 var section_center = document.getElementById("threecenter")
 var section_right = document.getElementById("threeright")
 var right_one = document.getElementById("threerightone");
 var right_two = document.getElementById("threerighttwo");
+
 var section_left2 = document.getElementById("twoleft")
 var section_right2 = document.getElementById("tworight")
-var imgdiv = document.getElementById("img")
 
 var teams = ["Blackops","Marine"]
 var units1 = ["Blackops 1","Blackops 2","Blackops 3","Blackops 4","Blackops 5"]
 var units2 = ["Marine 1","Marine 2","Marine 3","Marine 4","Marine 5"]
 var unitTypes = ["Assault","Support","Scout","Specialist"]
-var roles = [
-    "Commander", "Group leader","Soldier"
-]
+var roles = ["Commander", "Group leader","Soldier"]
 var MenuList = ["Groups","Buildings","Units","Shop"]
 var ShopCategories = ["Weapons", "Vehicles", "Gears"]
+var groups = ["Group 1","Group 2","Group 3","Group 4","Group 5","Group 6","Group 7","Group 8","Group 9","Group 10"]
+
+var createUnit = [0,0,0,0]
+var menu = 0
+var roleConfirmed = false;
+var teamUnits = [0,0,0,0,0,0,0,0]
+
 CloseButton();
 AddEventListeners(section_left2,"rgba(218,232,252,1)","rgba(190,202,219,1)","twoleft")
 AddEventListeners(section_right2,"rgba(248,206,204,1)","rgba(191,159,157,1)", "tworight")
 Hideobj(sec3);
+GroupFunctions()
 ColumnStyles();
-createUnit = [0,0,0,0]
-menu = 0
 
-var roleConfirmed = false;
-var teamUnits = [0,0,0,0,0,0,0,0]
-var groups = ["Group 1","Group 2","Group 3","Group 4","Group 5","Group 6","Group 7","Group 8","Group 9","Group 10"]
 window.addEventListener("message", (event) =>{
     var data = event.data
     if(data.action === "playerlist"){
@@ -78,12 +81,12 @@ function ColumnStyles(){
     section_center.addEventListener("mouseover", function()
     {
         section_center.style.backgroundColor="rgba(112, 112, 112, 0.8)";
-        ColumnChildMouseOver(section_center)
+        //ColumnChildMouseOver(section_center)
     });
     section_center.addEventListener("mouseleave", function()
     {
         section_center.style.backgroundColor="rgba(207, 207, 207, 0.2)";
-        ColumnChildMouseLeave(section_center)
+        //ColumnChildMouseLeave(section_center)
     });
     section_right.addEventListener("mouseover", function()
     {
@@ -229,7 +232,7 @@ function CElement(parentelement,elementtype, text, cb, param1, param2){
             obj.style.backgroundColor = ""
         }
         p.style.color = "rgba(71,71,71,1)"
-        p.style.backgroundColor = "rgba(40,40,40,0.8)"
+        p.style.backgroundColor = "rgba(40,40,40,0.6)"
         cb(param1,param2)
     });
     p.style.display="inline-block";
@@ -240,13 +243,17 @@ function CElement(parentelement,elementtype, text, cb, param1, param2){
     p.appendChild(text);
     parentelement.appendChild(p);
 }
-function ContinueButton(parentelement, cb, replaceText = ""){
+function ContinueButton(parentelement, cb, replaceText = "",param1,param2){
     var p = document.createElement("h3");
     p.addEventListener("mouseover", function(){p.style.color = "rgba(71,71,71,1)"});
     p.addEventListener("mouseleave", function(){p.style.color = "rgba(22,230,219,0.7)"});
     p.addEventListener("click", function(){
+        for(var v of section_center.children){
+            section_center.removeChild(section_center.firstChild)
+        }
+        Hideobj(section_center)
         p.style.color = "rgba(71,71,71,1)"
-        cb();
+        cb(param1,param2);
     });
     p.style.display="block";
     p.style.position="absolute"
@@ -263,6 +270,7 @@ function ContinueButton(parentelement, cb, replaceText = ""){
     
     p.appendChild(text);
     parentelement.appendChild(p);
+    
 }
 function CreateUnitTypeList(){
     if(createUnit[1]>=1 && menu === 1){
@@ -324,8 +332,8 @@ function CreateMenu(menuIndex){
     p.appendChild(text);
     section_left.appendChild(p);
     if(menuIndex===0){
-        for(var i = 0; i< groups.length;i++){
-            CElement(section_left,"h3",groups[i])
+        for(var i = 0; i< 10;i++){
+            CElement(section_left,"h3", "Group " + (i+1).toString(),GroupFunctions,i+1)
         }
     }
     else if(menuIndex===1){
@@ -357,33 +365,125 @@ function ShopMenus(menu){
     p.className = "txtheader"
     
     if(menu === 0){
-        ShopWeaponsMenu()
         var text = document.createTextNode("Weapons");
         p.appendChild(text);
         section_left.appendChild(p);
+        ShopWeaponsMenu()
     } else if(menu === 1){
-        ShopVehiclesMenu()
         var text = document.createTextNode("Vehicles");
         p.appendChild(text);
         section_left.appendChild(p);
+        ShopVehiclesMenu()
     } else if(menu === 2){
-        ShopGearsMenu()
         var text = document.createTextNode("Gears");
         p.appendChild(text);
         section_left.appendChild(p);
+        ShopGearsMenu()
     }
-    ContinueButton(section_left,CreateGameMenu,"Back")
+    ContinueButton(section_left,CreateMenu,"Back",3)
 }
-function ShopWeaponsMenu(){
-
+function ShopWeaponsMenu(action){
+    if(action === 1){
+        
+    }
+    else{
+        Showobj(section_center);
+        for(var v of section_center.children){
+            section_center.removeChild(section_center.firstChild)
+        }
+        var functions = ["Pistols", "Shotgun","SMG","LMG","Rifle","Sniper","Throwable","Launchers","Special"]
+        
+        for(var i of functions){
+            CElement(section_left,"h3",i)
+        }
+    }
 }
-function ShopVehiclesMenu(){
-
+function ShopVehiclesMenu(action){
+    if(action === 1){
+        
+    }
+    else{
+        Showobj(section_center);
+        for(var v of section_center.children){
+            section_center.removeChild(section_center.firstChild)
+        }
+        var functions = ["Land Vehicles","Planes","Helicopters"]
+        
+        for(var i of functions){
+            CElement(section_left,"h3",i)
+        }
+    }
 }
 function ShopGearsMenu(){
+    if(action === 1){
+        
+    }
+    else{
+        Showobj(section_center);
+        for(var v of section_center.children){
+            section_center.removeChild(section_center.firstChild)
+        }
+        var functions = ["Vittu","Pillu","Kulli"]
+        
+        for(var i of functions){
+            CElement(section_left,"h3",i)
+        }
+    }
+}
+function GroupFunctions(group){
+    Showobj(section_center);
+    var functions = ["Info", "Task","Units","Settings"]
+    for(var v of section_center.children){
+        section_center.removeChild(section_center.firstChild)
+    }
+    var pos = 6
+    var posnext = 20
+    var sec = document.createElement("SECTION")
+    section_center.appendChild(sec)
+    for(var i = 0; i<functions.length;i++){
+        var text = functions[i]
+        CObjCenter(sec,pos,posnext, i,text)
+    }
+}
+function CObjCenter(parent,pos, posnext, element, text, size){
+    
+    var p = document.createElement("h1")
+    p.style.display = "block"
+    p.style.position = "absolute"
+    p.style.padding = "0 5% 0 5%"
+    p.addEventListener("mouseover", function(){
+        p.style.color = "rgba(71,71,71,1)"
+    })
+    p.addEventListener("mouseleave", function(){
+        p.style.color = "rgba(22,230,219,0.7)"
+    })
+    p.addEventListener("click", function(){
+        for(var v of parent.children){
+            v.style.backgroundColor = ""
+        }
+        p.style.backgroundColor = "rgba(71,71,71,0.6)"
+    })
+    p.addEventListener("click", function(){
+        if(element===0){
 
+        }else if(element === 1){
+
+        }else if(element===2){
+
+        }else{
+            
+        }
+    })
+    if(size>0){
+        p.style.fontSize = size.toString() + "em"
+    }
+    p.style.left = (pos + (posnext * element)).toString() + "%"
+    var ptext = document.createTextNode(text)
+    p.appendChild(ptext)
+    parent.appendChild(p)
 }
 function CreateGameMenu(){
+    
     if(menu === 3){
         for(var i = 0; i< 15; i++){
             try{
@@ -472,39 +572,72 @@ function CloseButton(){
     p.addEventListener("click", function()
     {
         CloseNUI();
+        for(var v of section_center.children){
+            section_center.removeChild(section_center.firstChild)
+        }
+        Hideobj(section_center)
     });
     var text = document.createTextNode("X");
     p.appendChild(text);
     header.appendChild(p);
 }
-function CreatePlayersColumn(team1, team2){
-    Showobj(section_right);
-    TeamList(team1, teams[0],right_one)
-    TeamList(team2, teams[1],right_two)
+function CreatePlayersColumnRight(team1, team2){
+    Showobj(section_right)
+    for(var child of section_right.children){
+        section_right.removeChild(firstChild);
+    }
+    var sec1 = document.createElement("SECTION")
+    sec1.id = "threerightone"
+    sec1.style.border = "2px solid #000000"
+    section_right.appendChild(sec1)
+    var sec2 = document.createElement("SECTION")
+    sec2.id = "threerighttwo"
+    sec2.style.border = "2px solid #000000"
+    section_right.appendChild(sec2)
+    TeamList(team1, teams[0],sec1,2)
+    TeamList(team2, teams[1],sec2,2)
 }
-function TeamList(data, team, parent){
-    for(var i of parent.children){
-        parent.removeChild(firstChild)
-    }
-    var players = data.split(':');
-    var h2 = document.createElement("h2");
-    var h2text = document.createTextNode(team.toString());
-    h2.appendChild(h2text);
-    parent.appendChild(h2);
-    var p = document.createElement("p");
-    var ptext = "";
-    for(var i = 0; i< players.length; i++){
-        if(i===0){
-            ptext += "Commander  :   " + players[i].toString() + "\n\r";
-        }
-        else if(i<11){
-            ptext == ptext + "Group "+ i.toString() + "Leader  :   " + players[i].toString() + "\n\r";
-        }
-        else{
-            ptext == ptext + players[i].toString() + "\n\r";
+function TeamList(data, team, parent, columns){
+    var units = ["Commander", "Group 1 Leader", "Group 2 Leader", "Group 3 Leader", "Group 4 Leader", "Group 5 Leader"
+    , "Group 6 Leader", "Group 7 Leader", "Group 8 Leader", "Group 9 Leader", "Group 10 Leader"]
+
+    if(columns === 2){
+        var listOffset = 3
+        var players = data.split(':');
+        var h2 = document.createElement("h2");
+        var h2text = document.createTextNode(team.toString());
+        h2.appendChild(h2text);
+        parent.appendChild(h2);
+        for(var i = listOffset; i<units.length + listOffset; i++){
+            playerListCObj(parent,"left",units[i - listOffset],i * 4)
+            var playerName = players[i-listOffset]
+            if(i-listOffset>=players.length){
+                playerName=""
+            }
+            playerListCObj(parent,"right",playerName,i * 4)
         }
     }
-    var text = document.createTextNode(ptext);
-    p.appendChild(text);
-    parent.appendChild(p);
+    else if(columns === 3){
+
+    }
+}
+function playerListCObj(parent, position, text, heightT){
+    var p = document.createElement("h5")
+        p.style.display = "block"
+        p.style.position = "absolute"
+        if(position === "left"){
+            p.style.left = "0%"
+            p.style.padding = "0 0 0 5%"
+        }else if(position === "right"){
+            p.style.right = "0%"
+            p.style.padding = "0 5% 0 0"
+        }else if(position === "center"){
+            p.style.left = "40%"
+            p.style.padding = "0 5% 0 5%"
+        }
+        p.style.cursor = "pointer";
+        p.style.top = (heightT).toString() + "%"
+        var ptext = document.createTextNode(text)
+        p.appendChild(ptext);
+        parent.appendChild(p);
 }
