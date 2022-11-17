@@ -62,7 +62,7 @@ window.addEventListener("message", (event) =>{
     if(data.action.includes("players")){
         var team1 = data.action.split(';')[1];
         var team2 = data.action.split(';')[2];
-        CreatePlayersColumn(team1, team2);
+        CreatePlayersColumnRight(team1, team2);
     }
 })
 
