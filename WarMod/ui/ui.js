@@ -584,7 +584,10 @@ function CloseButton(){
 function CreatePlayersColumnRight(team1, team2){
     Showobj(section_right)
     for(var child of section_right.children){
-        section_right.removeChild(firstChild);
+        try{
+            section_right.removeChild(firstChild);
+        }
+        catch{}
     }
     var sec1 = document.createElement("SECTION")
     sec1.id = "threerightone"
