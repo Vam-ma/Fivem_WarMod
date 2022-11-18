@@ -536,10 +536,10 @@ function ShopVehiclesMenu(){
     for(var v of section_center.children){
         section_center.removeChild(section_center.firstChild)
     }
-    var functions = ["Land Vehicles","Planes","Helicopters"]
+    var functions = ["Land Vehicles","Planes","Helicopters","Boats","Special"]
         
     for(var i of functions){
-        CElement(section_left,"h3",i,ShopVehiclesSecCenter,1)
+        CElement(section_left,"h3",i,ShopVehiclesSecCenter,i+1)
     }
 }
 function ShopVehiclesSecCenter(category){
@@ -552,24 +552,39 @@ function ShopVehiclesSecCenter(category){
     var posY = 5
     var posXOffset = 30
     var posYOffset = 25
-    var guns = []
+    var vehicles = []
     var prices = []
     var message = "vehicle:"
     if(category === 1){
-        guns = ["apc","barrage","rhino","vetir","halftrack","BARRACKS"]
-        prices = [5000,4000,10000,4500,4500,3500]
+        vehicles = ["Apc","Barracks","Barracks Semi","Barrage","Chernobog","Crusader","Half-Track",
+        "Rhino","Anti-Aircraft","Vetir","Insurgent","Verus","Winky","Squaddie"]
+        prices = [8000,4000,4500,6000,8000,3500,6500,15000,3000,4000,5000,1000,2000]
+        message = message + "1:"
     }
     if(category === 2){
-        guns = ["apc","barrage","rhino","vetir","halftrack","BARRACKS"]
-        prices = [5000,4000,10000,4500,4500,3500]
+        vehicles = ["Avenger","Bombushka","Hydra","Lazer","Molotok","Nokota","Starling",
+        "Strikeforce","Titan","Tula","Volatol"]
+        prices = [15000,18000,55000,40000,30000,25000,25000,30000,20000,25000,25000]
+        message = message + "2:"
     }
     if(category === 3){
-        guns = ["apc","barrage","rhino","vetir","halftrack","BARRACKS"]
-        prices = [5000,4000,10000,4500,4500,3500]
+        vehicles = ["Akula","Annihilator","Annihilator Stealth","Cargobob","Hunter","Savage","Valkyrie"]
+        prices = [25000,30000,35000,10000,45000,45000,20000]
+        message = message + "3:"
     }
-    for(var i = 0; i<guns.length;i++){
+    if(category === 4){
+        vehicles = ["Weaponized Dinghy","Patrol Boat","Seashark"]
+        prices = [3000,6000,1000]
+        message = message + "4:"
+    }
+    if(category === 5){
+        vehicles = ["Bulldozer","Enduro","Manchez","Scorcher"]
+        prices = [3000,1000,1200,300]
+        message = message + "5:"
+    }
+    for(var i = 0; i<vehicles.length;i++){
         var sendMessage = message + i.toString()
-        createShopElement(sec,guns[i],"Price: " + prices[i].toString(),"",posX,posY,sendMessage)
+        createShopElement(sec,vehicles[i],"Price: " + prices[i].toString(),"",posX,posY,sendMessage)
         posX = posX + posXOffset
         if(posX>posXOffset*3){
             posX = 5
