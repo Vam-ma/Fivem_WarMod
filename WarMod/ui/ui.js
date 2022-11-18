@@ -337,7 +337,7 @@ function CreateMenu(menuIndex){
         }
     }
     else if(menuIndex===1){
-
+        
     }
     else if(menuIndex===2){
         MainScriptCallback("units")
@@ -351,6 +351,9 @@ function CreateMenu(menuIndex){
         }
     }
     ContinueButton(section_left,CreateGameMenu,"Back")
+}
+function BuildingsMenu(){
+
 }
 function ShopMenus(menu){
     for(var i = 0; i< 15; i++){
@@ -411,11 +414,11 @@ function shopsShowElements(category){
     var fileNames = []
     var message = "gun:"
     if(category === 1){
-        guns = ["Ap Pistol","Combat Pistol","Marksman Pistol", 
-        "Pistol","Pistol 50","Revolver","Revolver Mk2","Sns Pistol","Sns Pistol Mk2","Vintage Pistol"]
+        guns = ["Ap Pistol","Combat Pistol","Pistol","Pistol 50","Revolver",
+        "Revolver Mk2","Sns Pistol","Sns Pistol Mk2","Vintage Pistol","Marksman Pistol"]
         prices = [500,600,300,400,600,500,700,600,800,500]
-        fileNames = ["appistol","combatpistol","marksmanpistol", 
-        "pistol","pistol50","revolver","revolver","snspistol","snspistol","vintagepistol"]
+        fileNames = ["appistol","combatpistol","pistol","pistol50","revolver",
+        "revolver","snspistol","snspistol","vintagepistol","marksmanpistol"]
         folder = "pistols/"
         message = message + "0:"
     }
@@ -513,32 +516,64 @@ function createShopElement(parent,text,subtext,imgLocation, divleft,divtop,mains
     div.addEventListener("click", function(){
         MainScriptCallback(mainscriptMessage.toString())
     })
-    var img = document.createElement("img")
-    img.src = imgLocation
+    if(imgLocation!= ""){
+        var img = document.createElement("img")
+        img.src = imgLocation
+        div.appendChild(img)
+    }
     var header = document.createElement("h3")
     var textnode = document.createTextNode(text)
     var subheader = document.createElement("h4")
     var subtext = document.createTextNode(subtext)
     header.appendChild(textnode)
     subheader.appendChild(subtext)
-    div.appendChild(img)
     div.appendChild(header)
     div.appendChild(subheader)
     parent.appendChild(div)
 }
-function ShopVehiclesMenu(action){
-    if(action === 1){
-        
+function ShopVehiclesMenu(){
+    Showobj(section_center);
+    for(var v of section_center.children){
+        section_center.removeChild(section_center.firstChild)
     }
-    else{
-        Showobj(section_center);
-        for(var v of section_center.children){
-            section_center.removeChild(section_center.firstChild)
-        }
-        var functions = ["Land Vehicles","Planes","Helicopters"]
+    var functions = ["Land Vehicles","Planes","Helicopters"]
         
-        for(var i of functions){
-            CElement(section_left,"h3",i)
+    for(var i of functions){
+        CElement(section_left,"h3",i,ShopVehiclesSecCenter,1)
+    }
+}
+function ShopVehiclesSecCenter(category){
+    for(var child of section_center.children){
+        try{section_center.removeChild(section_center.firstChild)}catch{}
+    }
+    var sec = document.createElement("SECTION")
+    section_center.appendChild(sec)
+    var posX = 5
+    var posY = 5
+    var posXOffset = 30
+    var posYOffset = 25
+    var guns = []
+    var prices = []
+    var message = "vehicle:"
+    if(category === 1){
+        guns = ["apc","barrage","rhino","vetir","halftrack","BARRACKS"]
+        prices = [5000,4000,10000,4500,4500,3500]
+    }
+    if(category === 2){
+        guns = ["apc","barrage","rhino","vetir","halftrack","BARRACKS"]
+        prices = [5000,4000,10000,4500,4500,3500]
+    }
+    if(category === 3){
+        guns = ["apc","barrage","rhino","vetir","halftrack","BARRACKS"]
+        prices = [5000,4000,10000,4500,4500,3500]
+    }
+    for(var i = 0; i<guns.length;i++){
+        var sendMessage = message + i.toString()
+        createShopElement(sec,guns[i],"Price: " + prices[i].toString(),"",posX,posY,sendMessage)
+        posX = posX + posXOffset
+        if(posX>posXOffset*3){
+            posX = 5
+            posY = posY + posYOffset
         }
     }
 }
@@ -627,9 +662,9 @@ function CreateGameMenu(){
         p.appendChild(text);
         section_left.appendChild(p);
         if(createUnit[3] == 1){
-            for( var i = 0; i< MenuList.length;i++){
-                CElement(section_left,"h3",MenuList[i],CreateMenu, i)
-            }
+            CElement(section_left,"h3",MenuList[0],CreateMenu, 0)
+            CElement(section_left,"h3",MenuList[1],CreateMenu, 1)
+            CElement(section_left,"h3",MenuList[3],CreateMenu, 3)
         }
         else if(createUnit[3] == 2){
             CElement(section_left,"h3",MenuList[2],CreateMenu, 2)
@@ -666,7 +701,7 @@ function MainScriptCallback(message){
                 }
             }
             else{
-                
+
             }
         } 
         
@@ -732,8 +767,6 @@ function CreatePlayersColumnRight(team1, team2){
     TeamList(team2, teams[1],sec2,2)
 }
 function TeamList(data, team, parent, columns){
-    var units = ["Commander", "Group 1 Leader", "Group 2 Leader", "Group 3 Leader", "Group 4 Leader", "Group 5 Leader"
-    , "Group 6 Leader", "Group 7 Leader", "Group 8 Leader", "Group 9 Leader", "Group 10 Leader"]
 
     if(columns === 2){
         var listOffset = 3
@@ -742,12 +775,10 @@ function TeamList(data, team, parent, columns){
         var h2text = document.createTextNode(team.toString());
         h2.appendChild(h2text);
         parent.appendChild(h2);
-        for(var i = listOffset; i<units.length + listOffset; i++){
-            playerListCObj(parent,"left",units[i - listOffset],i * 4)
-            var playerName = players[i-listOffset]
-            if(i-listOffset>=players.length){
-                playerName=""
-            }
+        for(var i = listOffset; i<players.length + listOffset; i+2){
+            var unit = players[i-listOffset]
+            var playerName = players[i-listOffset+1]
+            playerListCObj(parent,"left",unit,i * 4)
             playerListCObj(parent,"right",playerName,i * 4)
         }
     }
