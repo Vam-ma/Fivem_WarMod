@@ -665,6 +665,9 @@ function MainScriptCallback(message){
                     teamUnits[i-1] = units[i];
                 }
             }
+            else{
+                
+            }
         } 
         
     );
