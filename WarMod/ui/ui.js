@@ -382,21 +382,149 @@ function ShopMenus(menu){
     }
     ContinueButton(section_left,CreateMenu,"Back",3)
 }
-function ShopWeaponsMenu(action){
-    if(action === 1){
-        
-    }
-    else{
-        Showobj(section_center);
+function ShopWeaponsMenu(){
+    
+    Showobj(section_center);
         for(var v of section_center.children){
             section_center.removeChild(section_center.firstChild)
         }
         var functions = ["Pistols", "Shotgun","SMG","LMG","Rifle","Sniper","Throwable","Launchers","Special"]
         
-        for(var i of functions){
-            CElement(section_left,"h3",i)
+        for(var i = 0; i<functions.length;i++){
+            CElement(section_left,"h3",functions[i], shopsShowElements,i+1)
+        }
+}
+function shopsShowElements(category){
+    var folder = ""
+    for(var child of section_center.children){
+        try{section_center.removeChild(section_center.firstChild)}catch{}
+    }
+    var sec = document.createElement("SECTION")
+    section_center.appendChild(sec)
+    var posX = 5
+    var posY = 5
+    var posXOffset = 30
+    var posYOffset = 25
+    var file = ""
+    var guns = []
+    var prices = []
+    var fileNames = []
+    var message = "gun:"
+    if(category === 1){
+        guns = ["Ap Pistol","Combat Pistol","Marksman Pistol", 
+        "Pistol","Pistol 50","Revolver","Revolver Mk2","Sns Pistol","Sns Pistol Mk2","Vintage Pistol"]
+        prices = [500,600,300,400,600,500,700,600,800,500]
+        fileNames = ["appistol","combatpistol","marksmanpistol", 
+        "pistol","pistol50","revolver","revolver","snspistol","snspistol","vintagepistol"]
+        folder = "pistols/"
+        message = message + "0:"
+    }
+    if(category === 2){
+        guns = ["Assault Shotgun","Bullpup Shotgun","Heavy Shotgun", 
+        "Musket","Pump Shotgun"]
+        prices = [1200,900,1300,600,700]
+        fileNames = ["assaultshotgun","bullpupshotgun","heavyshotgun", 
+        "musket","pumpshotgun"]
+        folder = "shotguns/"
+        message = message + "1:"
+    }
+    if(category === 3){
+        guns = ["Assault SMG","Combat PDW","Machine Pistol", 
+        "Micro SMG","Mini SMG","SMG","SMG Mk2"]
+        prices = [1300,1300,900,1100,1000,1400,1800]
+        fileNames = ["AssaultSMG","CombatPDW","MachinePistol", 
+        "MicroSMG","MicroSMG","SMG","SMG"]
+        folder = "Smg/"
+        message = message + "2:"
+    }
+    if(category === 4){
+        guns = ["Combat MG","Combat MG Mk2","Gusenberg", 
+        "MG"]
+        prices = [1800,2300,1500,1700]
+        fileNames = ["CombatMG","CombatMG","Gusenberg", 
+        "MG"]
+        folder = "Lmg/"
+        message = message + "3:"
+    }
+    if(category === 5){
+        guns = ["Advanced Rifle","Assault Rifle","Assault Rifle Mk2", "Bullpup Rifle","Bullpup Rifle Mk2",
+        "Carbine Rifle","Carbine Rifle Mk2","Compact Rifle","Special Carbine","Special Carbine Mk2"]
+        prices = [1800,1500,2000,1700,2200,1800,2300,1400,1600,2100]
+        fileNames = ["AdvancedRifle","AssaultRifle","AssaultRifle", "BullpupRifle","BullpupRifle",
+        "CarbineRifle","CarbineRifle","CompactRifle","SpecialCarbine","SpecialCarbine"]
+        folder = "Rifle/"
+        message = message + "4:"
+    }
+    if(category === 6){
+        guns = ["Heavy Sniper","Heavy Sniper Mk2","Marksman Rifle", "MarksmanRifle Mk2","Sniper Rifle"]
+        prices = [2200,3200,1800,2800,1500]
+        fileNames = ["HeavySniper","HeavySniper","MarksmanRifle", "MarksmanRifle","SniperRifle"]
+        folder = "Sniper/"
+        message = message + "5:"
+    }
+    if(category === 7){
+        guns = ["BZGas","Grenade","Molotov", "Proximity Mine","Smoke Grenade","Sticky Bomb"]
+        prices = [500,600,600,1000,400,1300]
+        fileNames = ["BZGas","Grenade","Molotov", "ProximinityMine","SmokeGrenade","StickyBomb"]
+        folder = "Throwable/"
+        message = message + "6:"
+    }
+    if(category === 8){
+        guns = ["Compact Grenade Launcher","Homing Launcher","RPG"]
+        prices = [3000,5000,4000]
+        fileNames = ["CompactLauncher","HomingLauncher","RPG"]
+        folder = "Launchers/"
+        message = message + "7:"
+    }
+    if(category === 9){
+        guns = ["Fire Extinguisher","Flashlight","Knife", "PetrolCan","Wrench"]
+        prices = [400,100,400,300,1000]
+        fileNames = ["FireExtinguisher","Flashlight","Knife", "PetrolCan","Wrench"]
+        folder = "Special/"
+        message = message + "8:"
+    }
+    for(var i = 0; i<guns.length;i++){
+        file = "./images/"+ folder + fileNames[i] +".png"
+        var sendMessage = message + i.toString()
+        createShopElement(sec,guns[i],"Price: " + prices[i].toString(),file.toString(),posX,posY,sendMessage)
+        posX = posX + posXOffset
+        if(posX>posXOffset*3){
+            posX = 5
+            posY = posY + posYOffset
         }
     }
+}
+function createShopElement(parent,text,subtext,imgLocation, divleft,divtop,mainscriptMessage){
+    var div = document.createElement("div")
+    div.style.display = "inline-block"
+    div.style.position="absolute"
+    div.style.left = divleft.toString() + "%"
+    div.style.top = divtop.toString() + "%"
+    div.style.padding = "1%"
+    div.style.textAlign="center"
+    div.style.width = "20%"
+    div.style.height = "15%"
+    div.addEventListener("mouseover", function(){
+        div.style.backgroundColor = "rgba(0,0,0,0.6)"
+    })
+    div.addEventListener("mouseleave", function(){
+        div.style.backgroundColor = ""
+    })
+    div.addEventListener("click", function(){
+        MainScriptCallback(mainscriptMessage.toString())
+    })
+    var img = document.createElement("img")
+    img.src = imgLocation
+    var header = document.createElement("h3")
+    var textnode = document.createTextNode(text)
+    var subheader = document.createElement("h4")
+    var subtext = document.createTextNode(subtext)
+    header.appendChild(textnode)
+    subheader.appendChild(subtext)
+    div.appendChild(img)
+    div.appendChild(header)
+    div.appendChild(subheader)
+    parent.appendChild(div)
 }
 function ShopVehiclesMenu(action){
     if(action === 1){
@@ -414,7 +542,7 @@ function ShopVehiclesMenu(action){
         }
     }
 }
-function ShopGearsMenu(){
+function ShopGearsMenu(action){
     if(action === 1){
         
     }
