@@ -538,8 +538,8 @@ function ShopVehiclesMenu(){
     }
     var functions = ["Land Vehicles","Planes","Helicopters","Boats","Special"]
         
-    for(var i of functions){
-        CElement(section_left,"h3",i,ShopVehiclesSecCenter,i+1)
+    for(var i = 0; i< functions.length; i++){
+        CElement(section_left,"h3",functions[i],ShopVehiclesSecCenter,i+1)
     }
 }
 function ShopVehiclesSecCenter(category){
@@ -557,8 +557,8 @@ function ShopVehiclesSecCenter(category){
     var message = "vehicle:"
     if(category === 1){
         vehicles = ["Apc","Barracks","Barracks Semi","Barrage","Chernobog","Crusader","Half-Track",
-        "Rhino","Anti-Aircraft","Vetir","Insurgent","Verus","Winky","Squaddie"]
-        prices = [8000,4000,4500,6000,8000,3500,6500,15000,3000,4000,5000,1000,2000]
+        "Rhino","Vetir","Insurgent","Winky","Squaddie"]
+        prices = [8000,4000,4500,6000,10000,3500,8500,15000,3000,4000,5000,1000]
         message = message + "1:"
     }
     if(category === 2){
@@ -578,8 +578,8 @@ function ShopVehiclesSecCenter(category){
         message = message + "4:"
     }
     if(category === 5){
-        vehicles = ["Bulldozer","Enduro","Manchez","Scorcher"]
-        prices = [3000,1000,1200,300]
+        vehicles = ["Anti-Aircraft","Bulldozer","Enduro","Manchez","Scorcher","Verus"]
+        prices = [3000,3000,1000,1200,300,1300]
         message = message + "5:"
     }
     for(var i = 0; i<vehicles.length;i++){
