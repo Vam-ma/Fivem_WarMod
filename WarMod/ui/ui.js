@@ -21,6 +21,7 @@ var roles = ["Commander", "Group leader","Soldier"]
 var MenuList = ["Groups","Buildings","Units","Shop","Inventory"]
 var ShopCategories = ["Weapons", "Vehicles", "Gears"]
 var groups = ["Group 1","Group 2","Group 3","Group 4","Group 5","Group 6","Group 7","Group 8","Group 9","Group 10"]
+var Items = ["MedKit","Armour","NightVision"]
 
 var createUnit = [0,0,0,0]
 var menu = 0
@@ -67,6 +68,7 @@ window.addEventListener("message", (event) =>{
     }
     if(data.action.includes("menuitems")){
         var objects = data.action.split(':');
+        InventoryItems = []
         for(var i=0;i<objects.length;i++){
             if(i>0){
                 InventoryItems.push(objects[i])
@@ -381,9 +383,9 @@ function Inventory(){
     var posYOffset = 25
     var message = "inventory:"
     var Amount = 0
-    for(var i = 0; i<InventoryItems.length;i++){
+    for(var i = 0; i<InventoryItems.length;i+2){
         var sendMessage = message + i.toString()
-        createShopElement(sec,InventoryItems[i],"Amount: " + Amount.toString(),"",posX,posY,sendMessage+i.toString())
+        createShopElement(sec,InventoryItems[i],"Amount: " + InventoryItems[i+1].toString(),"",posX,posY,sendMessage+i.toString())
         posX = posX + posXOffset
         if(posX>posXOffset*3){
             posX = 5
@@ -640,14 +642,33 @@ function ShopGearsMenu(action){
         
     }
     else{
-        Showobj(section_center);
-        for(var v of section_center.children){
-            section_center.removeChild(section_center.firstChild)
-        }
-        var functions = ["Vittu","Pillu","Kulli"]
+        var functions = ["Products"]
         
         for(var i of functions){
-            CElement(section_left,"h3",i)
+            CElement(section_left,"h3",i,CreateGearsMenu)
+        }
+    }
+}
+function CreateGearsMenu(){
+    Showobj(section_center);
+    for(var v of section_center.children){
+        try{section_center.removeChild(section_center.firstChild)}catch{}
+    }
+    var sec = document.createElement("SECTION")
+    section_center.appendChild(sec)
+    var posX = 5
+    var posY = 5
+    var posXOffset = 30
+    var posYOffset = 25
+    var prices = [200,300,500]
+    var message = "item:"
+    for(var i = 0; i<Items.length;i++){
+        var sendMessage = message + i.toString()
+        createShopElement(sec,Items[i],"Price: " + prices[i].toString(),"",posX,posY,sendMessage)
+        posX = posX + posXOffset
+        if(posX>posXOffset*3){
+            posX = 5
+            posY = posY + posYOffset
         }
     }
 }
