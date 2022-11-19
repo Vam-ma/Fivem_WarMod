@@ -18,7 +18,7 @@ var units1 = ["Blackops 1","Blackops 2","Blackops 3","Blackops 4","Blackops 5"]
 var units2 = ["Marine 1","Marine 2","Marine 3","Marine 4","Marine 5"]
 var unitTypes = ["Assault","Support","Scout","Specialist"]
 var roles = ["Commander", "Group leader","Soldier"]
-var MenuList = ["Groups","Buildings","Units","Shop"]
+var MenuList = ["Groups","Buildings","Units","Shop","Inventory"]
 var ShopCategories = ["Weapons", "Vehicles", "Gears"]
 var groups = ["Group 1","Group 2","Group 3","Group 4","Group 5","Group 6","Group 7","Group 8","Group 9","Group 10"]
 
@@ -26,6 +26,7 @@ var createUnit = [0,0,0,0]
 var menu = 0
 var roleConfirmed = false;
 var teamUnits = [0,0,0,0,0,0,0,0]
+var InventoryItems = []
 
 CloseButton();
 AddEventListeners(section_left2,"rgba(218,232,252,1)","rgba(190,202,219,1)","twoleft")
@@ -63,6 +64,14 @@ window.addEventListener("message", (event) =>{
         var team1 = data.action.split(';')[1];
         var team2 = data.action.split(';')[2];
         CreatePlayersColumnRight(team1, team2);
+    }
+    if(data.action.includes("menuitems")){
+        var objects = data.action.split(':');
+        for(var i=0;i<objects.length;i++){
+            if(i>0){
+                InventoryItems.push(objects[i])
+            }
+        }
     }
 })
 
@@ -328,29 +337,59 @@ function CreateMenu(menuIndex){
     }
     var p = document.createElement("h2");
     p.className = "txtheader"
-    var text = document.createTextNode("Select Type");
+    var menutext = ""
+    var menutextend = true
+    if(menuIndex === 0){menutext = "Groups"}
+    else if(menuIndex === 1){menutext = "Buildings"}
+    else if(menuIndex === 2){menutext = "Units"}
+    else if(menuIndex === 3){menutext = "Shop"}
+    else if(menuIndex === 4){menutext = "Inventory", menutextend=false}
+    if(menutextend){menutext = menutext + " Menu"}
+    var text = document.createTextNode(menutext);
     p.appendChild(text);
     section_left.appendChild(p);
     if(menuIndex===0){
         for(var i = 0; i< 10;i++){
             CElement(section_left,"h3", "Group " + (i+1).toString(),GroupFunctions,i+1)
         }
-    }
-    else if(menuIndex===1){
+    }else if(menuIndex===1){
         
-    }
-    else if(menuIndex===2){
+    }else if(menuIndex===2){
         MainScriptCallback("units")
         for(var i = 0; i< teamUnits.length;i++){
             CElement(section_left,"h3",teamUnits[i])
         }
-    }
-    else if(menuIndex===3){
+    }else if(menuIndex===3){
         for(var i = 0; i < ShopCategories.length; i++){
             CElement(section_left,"h3",ShopCategories[i], ShopMenus, i)
         }
+    }else if(menuIndex===4){
+        Showobj(section_center);
+        Inventory()
     }
     ContinueButton(section_left,CreateGameMenu,"Back")
+}
+function Inventory(){
+    for(var child of section_center.children){
+        try{section_center.removeChild(section_center.firstChild)}catch{}
+    }
+    var sec = document.createElement("SECTION")
+    section_center.appendChild(sec)
+    var posX = 5
+    var posY = 5
+    var posXOffset = 30
+    var posYOffset = 25
+    var message = "inventory:"
+    var Amount = 0
+    for(var i = 0; i<InventoryItems.length;i++){
+        var sendMessage = message + i.toString()
+        createShopElement(sec,InventoryItems[i],"Amount: " + Amount.toString(),"",posX,posY,sendMessage+i.toString())
+        posX = posX + posXOffset
+        if(posX>posXOffset*3){
+            posX = 5
+            posY = posY + posYOffset
+        }
+    }
 }
 function BuildingsMenu(){
 
@@ -382,6 +421,10 @@ function ShopMenus(menu){
         p.appendChild(text);
         section_left.appendChild(p);
         ShopGearsMenu()
+    }else if(menu === 3){
+        var text = document.createTextNode("Inventory");
+        p.appendChild(text);
+        section_left.appendChild(p);
     }
     ContinueButton(section_left,CreateMenu,"Back",3)
 }
@@ -398,7 +441,7 @@ function ShopWeaponsMenu(){
         }
 }
 function shopsShowElements(category){
-    var folder = ""
+    var folder = `https://${GetParentResourceName()}/ui/images/`
     for(var child of section_center.children){
         try{section_center.removeChild(section_center.firstChild)}catch{}
     }
@@ -419,7 +462,7 @@ function shopsShowElements(category){
         prices = [500,600,300,400,600,500,700,600,800,500]
         fileNames = ["appistol","combatpistol","pistol","pistol50","revolver",
         "revolver","snspistol","snspistol","vintagepistol","marksmanpistol"]
-        folder = "pistols/"
+        folder = folder + "pistols/"
         message = message + "0:"
     }
     if(category === 2){
@@ -428,7 +471,7 @@ function shopsShowElements(category){
         prices = [1200,900,1300,600,700]
         fileNames = ["assaultshotgun","bullpupshotgun","heavyshotgun", 
         "musket","pumpshotgun"]
-        folder = "shotguns/"
+        folder = folder + "shotguns/"
         message = message + "1:"
     }
     if(category === 3){
@@ -437,7 +480,7 @@ function shopsShowElements(category){
         prices = [1300,1300,900,1100,1000,1400,1800]
         fileNames = ["AssaultSMG","CombatPDW","MachinePistol", 
         "MicroSMG","MicroSMG","SMG","SMG"]
-        folder = "Smg/"
+        folder = folder + "Smg/"
         message = message + "2:"
     }
     if(category === 4){
@@ -446,7 +489,7 @@ function shopsShowElements(category){
         prices = [1800,2300,1500,1700]
         fileNames = ["CombatMG","CombatMG","Gusenberg", 
         "MG"]
-        folder = "Lmg/"
+        folder = folder + "Lmg/"
         message = message + "3:"
     }
     if(category === 5){
@@ -455,39 +498,39 @@ function shopsShowElements(category){
         prices = [1800,1500,2000,1700,2200,1800,2300,1400,1600,2100]
         fileNames = ["AdvancedRifle","AssaultRifle","AssaultRifle", "BullpupRifle","BullpupRifle",
         "CarbineRifle","CarbineRifle","CompactRifle","SpecialCarbine","SpecialCarbine"]
-        folder = "Rifle/"
+        folder = folder + "Rifle/"
         message = message + "4:"
     }
     if(category === 6){
         guns = ["Heavy Sniper","Heavy Sniper Mk2","Marksman Rifle", "MarksmanRifle Mk2","Sniper Rifle"]
         prices = [2200,3200,1800,2800,1500]
         fileNames = ["HeavySniper","HeavySniper","MarksmanRifle", "MarksmanRifle","SniperRifle"]
-        folder = "Sniper/"
+        folder = folder + "Sniper/"
         message = message + "5:"
     }
     if(category === 7){
         guns = ["BZGas","Grenade","Molotov", "Proximity Mine","Smoke Grenade","Sticky Bomb"]
         prices = [500,600,600,1000,400,1300]
         fileNames = ["BZGas","Grenade","Molotov", "ProximinityMine","SmokeGrenade","StickyBomb"]
-        folder = "Throwable/"
+        folder = folder + "Throwable/"
         message = message + "6:"
     }
     if(category === 8){
         guns = ["Compact Grenade Launcher","Homing Launcher","RPG"]
         prices = [3000,5000,4000]
         fileNames = ["CompactLauncher","HomingLauncher","RPG"]
-        folder = "Launchers/"
+        folder = folder + "Launchers/"
         message = message + "7:"
     }
     if(category === 9){
         guns = ["Fire Extinguisher","Flashlight","Knife", "PetrolCan","Wrench"]
         prices = [400,100,400,300,1000]
         fileNames = ["FireExtinguisher","Flashlight","Knife", "PetrolCan","Wrench"]
-        folder = "Special/"
+        folder = folder + "Special/"
         message = message + "8:"
     }
     for(var i = 0; i<guns.length;i++){
-        file = "./images/"+ folder + fileNames[i] +".png"
+        file = folder + fileNames[i] +".png"
         var sendMessage = message + i.toString()
         createShopElement(sec,guns[i],"Price: " + prices[i].toString(),file.toString(),posX,posY,sendMessage)
         posX = posX + posXOffset
@@ -680,13 +723,16 @@ function CreateGameMenu(){
             CElement(section_left,"h3",MenuList[0],CreateMenu, 0)
             CElement(section_left,"h3",MenuList[1],CreateMenu, 1)
             CElement(section_left,"h3",MenuList[3],CreateMenu, 3)
+            CElement(section_left,"h3",MenuList[4],CreateMenu, 4)
         }
         else if(createUnit[3] == 2){
             CElement(section_left,"h3",MenuList[2],CreateMenu, 2)
             CElement(section_left,"h3",MenuList[3],CreateMenu, 3)
+            CElement(section_left,"h3",MenuList[4],CreateMenu, 4)
         }
         else if(createUnit[3] == 3){
             CElement(section_left,"h3",MenuList[3],CreateMenu, 3)
+            CElement(section_left,"h3",MenuList[4],CreateMenu, 4)
         }
     }
 }
