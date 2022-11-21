@@ -74,14 +74,7 @@ window.addEventListener("message", (event) =>{
                 InventoryItems[i] = objects[i].toString()
             }
         }
-        if(InventoryItems.length==0){
-            console.log(`Inventory items not found`)
-        }
-        else{
-            for(var i = 0;i<InventoryItems;i++){
-                console.log(`Item: ${InventoryItems[i]} Amount: ${InventoryItems[i+1]}`)
-            }
-        }
+        console.log("Inventory: " + InventoryItems.length.toString())
     }
 })
 
