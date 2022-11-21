@@ -63,9 +63,8 @@ window.addEventListener("message", (event) =>{
         CreatePlayersColumnRight(team1, team2);
     }else if(data.action.includes("menuitems")){
         var objects = data.action.split(':');
-        InventoryItems[0] = objects[1]
-        InventoryItems[1] = objects[2]
-        InventoryItems[2] = objects[3]
+        InventoryItems = []
+        InventoryItems.push[Number(objects[1]),Number(objects[2]),Number(objects[3])]
     }
 })
 
