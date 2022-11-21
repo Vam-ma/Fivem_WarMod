@@ -27,7 +27,7 @@ var createUnit = [0,0,0,0]
 var menu = 0
 var roleConfirmed = false;
 var teamUnits = [0,0,0,0,0,0,0,0]
-var InventoryItems = ["","","","","",""]
+var InventoryItems = [0,0,0]
 
 CloseButton();
 AddEventListeners(section_left2,"rgba(218,232,252,1)","rgba(190,202,219,1)","twoleft")
@@ -68,13 +68,9 @@ window.addEventListener("message", (event) =>{
     }
     if(data.action.includes("menuitems")){
         var objects = data.action.split(':');
-        InventoryItems = []
-        for(var i=0;i<objects.length;i++){
-            if(i>0){
-                InventoryItems[i] = objects[i].toString()
-            }
-        }
-        console.log("Inventory: " + InventoryItems.length.toString())
+        InventoryItems[0] = Number(objects[1])
+        InventoryItems[1] = Number(objects[2])
+        InventoryItems[2] = Number(objects[3])
     }
 })
 
@@ -380,19 +376,33 @@ function Inventory(){
     var posXOffset = 30
     var posYOffset = 25
     var message = "inventory:"
-    for(var i = 0; i<InventoryItems.length;i+2){
-        if(InventoryItems[i]+1!=0){
-            var sendMessage = message + i.toString()
-            createShopElement(sec,InventoryItems[i],"Amount: " + InventoryItems[i+1].toString(),"",posX,posY,sendMessage+i.toString())
-            posX = posX + posXOffset
-            if(posX>posXOffset*3){
-                posX = 5
-                posY = posY + posYOffset
-            }
+    if(InventoryItems[0]!=0){
+        var sendMessage = message + "0"
+        createShopElement(sec,"MedKit","Amount: " + InventoryItems[0].toString(),"",posX,posY,sendMessage.toString())
+        posX = posX + posXOffset
+        if(posX>posXOffset*3){
+            posX = 5
+            posY = posY + posYOffset
         }
-        console.log(`Item: ${InventoryItems[i]} Amount: ${InventoryItems[i+1]}`)
     }
-    
+    if(InventoryItems[1]!=0){
+        var sendMessage = message + "1"
+        createShopElement(sec,"Armour","Amount: " + InventoryItems[1].toString(),"",posX,posY,sendMessage.toString())
+        posX = posX + posXOffset
+        if(posX>posXOffset*3){
+            posX = 5
+            posY = posY + posYOffset
+        }
+    }
+    if(InventoryItems[2]!=0){
+        var sendMessage = message + "2"
+        createShopElement(sec,"NightVision","Amount: " + InventoryItems[2].toString(),"",posX,posY,sendMessage.toString())
+        posX = posX + posXOffset
+        if(posX>posXOffset*3){
+            posX = 5
+            posY = posY + posYOffset
+        }
+    }
 }
 function BuildingsMenu(){
 
