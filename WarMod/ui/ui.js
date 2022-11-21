@@ -40,16 +40,13 @@ window.addEventListener("message", (event) =>{
     var data = event.data
     if(data.action === "playerlist"){
 
-    }
-    if(data.action === "close"){
+    }else if(data.action === "close"){
         Hideobj(header)
         Hideobj(sec3)
-    }
-    if(data.action === "open"){
+    }else if(data.action === "open"){
         Showobj(header)
         Showobj(sec3)
-    }
-    if(data.action.includes("role")){
+    }else if(data.action.includes("role")){
         var newRole = data.action.split(':')[1];
         createUnit[3] = parseInt(newRole);
         if(createUnit[3] == 1){
@@ -60,17 +57,15 @@ window.addEventListener("message", (event) =>{
             AddHeaderText("Soldier")
         }
         roleConfirmed = true;
-    }
-    if(data.action.includes("players")){
+    }else if(data.action.includes("players")){
         var team1 = data.action.split(';')[1];
         var team2 = data.action.split(';')[2];
         CreatePlayersColumnRight(team1, team2);
-    }
-    if(data.action.includes("menuitems")){
+    }else if(data.action.includes("menuitems")){
         var objects = data.action.split(':');
-        InventoryItems[0] = Number(objects[1])
-        InventoryItems[1] = Number(objects[2])
-        InventoryItems[2] = Number(objects[3])
+        InventoryItems[0] = objects[1]
+        InventoryItems[1] = objects[2]
+        InventoryItems[2] = objects[3]
     }
 })
 
