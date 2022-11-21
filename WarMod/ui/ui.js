@@ -27,7 +27,7 @@ var createUnit = [0,0,0,0]
 var menu = 0
 var roleConfirmed = false;
 var teamUnits = [0,0,0,0,0,0,0,0]
-var InventoryItems = []
+var InventoryItems = ["","","","","",""]
 
 CloseButton();
 AddEventListeners(section_left2,"rgba(218,232,252,1)","rgba(190,202,219,1)","twoleft")
@@ -71,7 +71,7 @@ window.addEventListener("message", (event) =>{
         InventoryItems = []
         for(var i=0;i<objects.length;i++){
             if(i>0){
-                InventoryItems.push(objects[i].toString())
+                InventoryItems[i] = objects[i].toString()
             }
         }
         if(InventoryItems.length==0){
@@ -377,7 +377,6 @@ function CreateMenu(menuIndex){
     ContinueButton(section_left,CreateGameMenu,"Back")
 }
 function Inventory(){
-    console.log("Inventory()")
     for(var child of section_center.children){
         try{section_center.removeChild(section_center.firstChild)}catch{}
     }
