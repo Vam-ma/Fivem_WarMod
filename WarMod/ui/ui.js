@@ -131,7 +131,6 @@ function ColumnStyles(){
         ColumnChildMouseLeave(section_right2)
     });
 }
-
 function ColumnChildMouseOver(column){
     for(var c of column.children){
         c.style.color = "rgba(71,71,71,1)"
@@ -142,7 +141,6 @@ function ColumnChildMouseLeave(column){
         c.style.color = "rgba(22,230,219,0.7)"
     }
 }
-
 function AddEventListeners(obj, basecolor, highlightColor,buttonname){
     obj.addEventListener("mouseover", function()
     {
@@ -163,7 +161,6 @@ function Hideobj(obj){
 function Showobj(obj){
     obj.style.display = "block"
 }
-
 function trigger(button){
     if(button == "twoleft"){
         if(createUnit[0]===0){
@@ -382,16 +379,19 @@ function Inventory(){
     var posXOffset = 30
     var posYOffset = 25
     var message = "inventory:"
-    var Amount = 0
     for(var i = 0; i<InventoryItems.length;i+2){
-        var sendMessage = message + i.toString()
-        createShopElement(sec,InventoryItems[i],"Amount: " + InventoryItems[i+1].toString(),"",posX,posY,sendMessage+i.toString())
-        posX = posX + posXOffset
-        if(posX>posXOffset*3){
-            posX = 5
-            posY = posY + posYOffset
+        if(InventoryItems[i]+1!=0){
+            var sendMessage = message + i.toString()
+            createShopElement(sec,InventoryItems[i],"Amount: " + InventoryItems[i+1].toString(),"",posX,posY,sendMessage+i.toString())
+            posX = posX + posXOffset
+            if(posX>posXOffset*3){
+                posX = 5
+                posY = posY + posYOffset
+            }
         }
+        console.log(`Item: ${InventoryItems[i]} Amount: ${InventoryItems[i+1]}`)
     }
+    
 }
 function BuildingsMenu(){
 
