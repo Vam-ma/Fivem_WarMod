@@ -71,7 +71,7 @@ window.addEventListener("message", (event) =>{
         InventoryItems = []
         for(var i=0;i<objects.length;i++){
             if(i>0){
-                InventoryItems.push(objects[i])
+                InventoryItems.push(objects[i].toString())
             }
         }
     }
