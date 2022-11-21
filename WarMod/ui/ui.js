@@ -74,6 +74,14 @@ window.addEventListener("message", (event) =>{
                 InventoryItems.push(objects[i].toString())
             }
         }
+        if(InventoryItems.length==0){
+            console.log(`Inventory items not found`)
+        }
+        else{
+            for(var i = 0;i<InventoryItems;i++){
+                console.log(`Item: ${InventoryItems[i]} Amount: ${InventoryItems[i+1]}`)
+            }
+        }
     }
 })
 
@@ -363,12 +371,13 @@ function CreateMenu(menuIndex){
             CElement(section_left,"h3",ShopCategories[i], ShopMenus, i)
         }
     }else if(menuIndex===4){
-        Showobj(section_center);
+        Showobj(section_center)
         Inventory()
     }
     ContinueButton(section_left,CreateGameMenu,"Back")
 }
 function Inventory(){
+    console.log("Inventory()")
     for(var child of section_center.children){
         try{section_center.removeChild(section_center.firstChild)}catch{}
     }
