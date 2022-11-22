@@ -8,24 +8,74 @@
 <body>
     <article id="article">
         <header id="header">
-            <h1 class="txtheader">War Mod</h1>
+
         </header>
-        <section id="threesec">
-            <section id="threeleft">
-            </section>
-            <section id="threecenter">
-            </section>
-            <section id="threeright">
-            </section>
-        </section>
-        <section id="twosec">
-            <section id="twoleft">
-                <h1 style="padding: 2% 0 5% 0;">Blackops</h1>
-            </section>
-            <section id="tworight">
-                <h1 style="padding: 2% 0 5% 0;">Marine</h1>
-            </section>
-        </section>
+        <span id="closeNUIbtn" onclick="CloseNUI()">🞬</span>
+        <span id="btn" onclick="openNav()">&#9776;</span>
+        <div id="myNav" class="overlay">
+            <a id="closebtn" onclick="closeNav()">🞬</a>
+            <div class="playersContent">
+                <h1>Players</h1>
+                <div id="pll">
+                    <h2 class="teamname" id="bo">Blackops</h2>
+                    <div class="teamname" id="pllbo">
+                        <h4 class="players">Commander</h4>
+                        <h4 class="players">Group 1 Leader</h4>
+                        <h4 class="players">Group 2 Leader</h4>
+                        <h4 class="players">Group 3 Leader</h4>
+                        <h4 class="players">Group 4 Leader</h4>
+                        <h4 class="players">Group 5 Leader</h4>
+                        <h4 class="players">Group 6 Leader</h4>
+                        <h4 class="players">Group 7 Leader</h4>
+                        <h4 class="players">Group 8 Leader</h4>
+                        <h4 class="players">Group 9 Leader</h4>
+                        <h4 class="players">Group 10 Leader</h4>
+                    </div>
+                    <h2 class="teamname" id="ma">Marine</h2>
+                    <div class="teamname" id="pllma">
+                        <h4 class="players">Commander</h4>
+                        <h4 class="players">Group 1 Leader</h4>
+                        <h4 class="players">Group 2 Leader</h4>
+                        <h4 class="players">Group 3 Leader</h4>
+                        <h4 class="players">Group 4 Leader</h4>
+                        <h4 class="players">Group 5 Leader</h4>
+                        <h4 class="players">Group 6 Leader</h4>
+                        <h4 class="players">Group 7 Leader</h4>
+                        <h4 class="players">Group 8 Leader</h4>
+                        <h4 class="players">Group 9 Leader</h4>
+                        <h4 class="players">Group 10 Leader</h4>
+                    </div>
+                </div>
+                <div id="plr">
+                    <div class="teamname" id="plrbo">
+                        <h4 class="players" id="p0"></h4>
+                        <h4 class="players" id="p1"></h4>
+                        <h4 class="players" id="p2"></h4>
+                        <h4 class="players" id="p3"></h4>
+                        <h4 class="players" id="p4"></h4>
+                        <h4 class="players" id="p5"></h4>
+                        <h4 class="players" id="p6"></h4>
+                        <h4 class="players" id="p7"></h4>
+                        <h4 class="players" id="p8"></h4>
+                        <h4 class="players" id="p9"></h4>
+                        <h4 class="players" id="p10"></h4>
+                    </div>
+                    <div class="teamname" id="plrma">
+                        <h4 class="players" id="p11"></h4>
+                        <h4 class="players" id="p12"></h4>
+                        <h4 class="players" id="p13"></h4>
+                        <h4 class="players" id="p14"></h4>
+                        <h4 class="players" id="p15"></h4>
+                        <h4 class="players" id="p16"></h4>
+                        <h4 class="players" id="p17"></h4>
+                        <h4 class="players" id="p18"></h4>
+                        <h4 class="players" id="p19"></h4>
+                        <h4 class="players" id="p20"></h4>
+                        <h4 class="players" id="p21"></h4>
+                    </div>
+                </div>
+            </div>
+          </div>
     </article>
     <script src="./ui.js"></script>
 </body>

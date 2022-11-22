@@ -1,137 +1,136 @@
 *{
-    margin: 0em;
+    margin: 0;
 }
 body{
-    background-color: rgba(100, 100, 100, 0.05);
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0%;
+    top: 0%;
 }
 header{
-    display:block;
+    display: block;
     position: absolute;
     width: 100%;
     height: 7%;
-    text-align: left;
-    background-color: #282828b7;
-}
-.txtheader{
-    padding: 0 5% 0 5%;
-    display: inline-block;
-}
-#threeleft{
-    display:block;
-    position: absolute;
-    top: 7%;
-    width: 15%;
-    height: 87.7%;
-    padding: 3% 3.4% 0% 0%;
-    background-color: rgba(207, 207, 207, 0.2);
-    text-align: center;
-}
-#threeright{
-    display:block;
-    position: absolute;
-    right: 0;
-    top: 7%;
-    width: 24%;
-    height: 87.7%;
-    padding: 3% 3.4% 0% 0%;
-    background-color: rgba(207, 207, 207, 0.2);
-    text-align: center;
-}
-#threerightone{
-    display:block;
-    position: absolute;
-    right: 50%;
-    top: 7%;
-    width: 46%;
-    height: 87.7%;
-    padding: 3% 3.4% 0% 0%;
-    text-align: center;
-}
-#threerighttwo{
-    display:block;
-    position: absolute;
-    right: 0;
-    top: 7%;
-    width: 46%;
-    height: 87.7%;
-    padding: 3% 3.4% 0% 0%;
-    text-align: center;
-}
-#threecenter{
-    display:block;
-    position: absolute;
-    left: 18.5%;
-    top: 7%;
-    width: 50.6%;
-    height: 87.7%;
-    padding: 3% 3.4% 0% 0%;
-    background-color: rgba(207, 207, 207, 0.2);
-    text-align: center;
-}
-#twoleft{
-    display:block;
-    position: absolute;
-    left: 5%;
-    top: 25%;
-    width: 35%;
-    height: 50%;
-    padding: 0% 5% 0% 5%;
-    background-color: rgba(207, 207, 207, 0.2);
-    text-align: center;
-}
-#tworight{
-    display:block;
-    position: absolute;
-    right: 5%;
-    top: 25%;
-    width: 35%;
-    height: 50%;
-    padding: 0% 5% 0% 5%;
-    background-color: rgba(207, 207, 207, 0.2);
-    text-align: center;
-}
-#img{
-    display:block;
-    position: absolute;
-    left: 17.5%;
-    top: 16%;
-    width: 40%;
-    height: 75%;
-    text-align: center;
-}
-#image{
-    display:block;
-    position: absolute;
-    left: -4.5%;
-    top: -2%;
-    width: 95%;
-    height: 95%;
-    background-color: #DAE8FC;
-    border: 4px solid #1b3009;
-    border-radius: 0.1em;
-    text-align: center;
-}
-#buttons{
-    display:block;
-    position: absolute;
-    right: 5.5%;
-    top: 90%;
-    width: 15%;
-    height: 5%;
-    text-align: center;
+    top: 0%;
+    left: 0%;
+    z-index: -1;
 }
 h1{
-    color: #13c4bb;
-    font-size: 3.2em;
+    font-size: 4em;
+    color: #262525;
 }
 h2{
-    color: #13c4bb;
     font-size: 3em;
-    width: 100%;
-    text-align: center;
+    color: #262525;
 }
 h3{
-    color: #13c4bb;
     font-size: 2em;
+    color: #262525;
+}
+.players{
+    text-align: left;
+    font-size: 1.3em;
+    color: #595959;
+}
+#btn{
+    font-size: 30px;
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    right: 1%;
+    top: 8%;
+    z-index: 1;
+}
+#closebtn{
+    font-size: 4em;
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    left: 1%;
+    top: 0%;
+    z-index: 1;
+}
+#closeNUIbtn{
+    font-size: 4em;
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    color: red;
+    right: 0%;
+    padding: 0 1% 0 1%;
+    top: -1%;
+    z-index: 1;
+}
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+  
+.playersContent {
+    position: absolute;
+    top: 0%;
     width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    cursor: pointer;
+}
+  
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+  
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+  
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    left: 45px;
+    font-size: 60px;
+}
+  
+.teamname{
+    display: block;
+    position: absolute;
+}
+#pllbo{
+    top: 200%;
+    left: 5%;
+}
+#pllma{
+    top: 700%;
+    left: 5%;
+}
+#plrbo{
+    top: 200%;
+    right: 5%;
+}
+#plrma{
+    top: 700%;
+    right: 5%;
+}
+#bo{
+    left: 15%;
+    top: 180;
+}
+#ma{
+    left: 15%;
+    top: 600%;
 }

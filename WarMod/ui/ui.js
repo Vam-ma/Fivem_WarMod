@@ -1,59 +1,44 @@
-var header = document.getElementById("header")
+var col1 = "81,235,252"
+var col2 = "71,71,71"
+var col3 = "189,189,189"
 
-var sec3 = document.getElementById("threesec")
-var sec2 = document.getElementById("twosec")
-
-
-var section_left = document.getElementById("threeleft")
-var section_center = document.getElementById("threecenter")
-var section_right = document.getElementById("threeright")
-var right_one = document.getElementById("threerightone");
-var right_two = document.getElementById("threerighttwo");
-
-var section_left2 = document.getElementById("twoleft")
-var section_right2 = document.getElementById("tworight")
-
+var article = document.getElementById("article")
+HeaderTxt(["WarMod"])
 var teams = ["Blackops","Marine"]
-var units1 = ["Blackops 1","Blackops 2","Blackops 3","Blackops 4","Blackops 5"]
-var units2 = ["Marine 1","Marine 2","Marine 3","Marine 4","Marine 5"]
-var unitTypes = ["Assault","Support","Scout","Specialist"]
-var roles = ["Commander", "Group leader","Soldier"]
-var MenuList = ["Groups","Buildings","Units","Shop","Inventory"]
-var ShopCategories = ["Weapons", "Vehicles", "Gears"]
-var groups = ["Group 1","Group 2","Group 3","Group 4","Group 5","Group 6","Group 7","Group 8","Group 9","Group 10"]
-var Items = ["MedKit","Armour","NightVision"]
+var Units = ["Blackops 1","Blackops 2","Blackops 3","Blackops 4","Blackops 5","Marine 1","Marine 2","Marine 3","Marine 4","Marine 5"]
+var UnitTypes = ["Assault","Support","Scout","Specialist"]
+var Roles = ["Commander", "Group Leader", "Soldier"]
+var MainMenu1 = ["Groups","Buildings","Shop","Inventory","Settings"]
+var MainMenu2 = ["Units","Shop","Inventory","Settings"]
 
-var createUnit = [0,0,0,0]
-var menu = 0
-var roleConfirmed = false;
-var teamUnits = [0,0,0,0,0,0,0,0]
-var InventoryItems = [0,0,0]
+var CreateSoldier = [0,0,0,0]
+TeamSelection("")
 
-CloseButton();
-AddEventListeners(section_left2,"rgba(218,232,252,1)","rgba(190,202,219,1)","twoleft")
-AddEventListeners(section_right2,"rgba(248,206,204,1)","rgba(191,159,157,1)", "tworight")
-Hideobj(sec3);
-GroupFunctions()
-ColumnStyles();
+var btn = document.getElementById("closeNUIbtn")
+    btn.addEventListener("mouseover",function(){
+        btn.style.backgroundColor = `rgba(${col2},0.8)`
+    })
+    btn.addEventListener("mouseleave",function(){
+        btn.style.backgroundColor = `rgba(${col3},0.8)`
+    })
+    btn.style.backgroundColor = `rgba(${col3},0.8)`
 
 window.addEventListener("message", (event) =>{
     var data = event.data
     if(data.action === "playerlist"){
 
     }else if(data.action === "close"){
-        Hideobj(header)
-        Hideobj(sec3)
+        Hideobj(article,true)
     }else if(data.action === "open"){
-        Showobj(header)
-        Showobj(sec3)
+        Hideobj(article,false)
     }else if(data.action.includes("role")){
         var newRole = data.action.split(':')[1];
-        createUnit[3] = parseInt(newRole);
-        if(createUnit[3] == 1){
+        CreateSoldier[3] = parseInt(newRole);
+        if(creatCreateSoldiereUnit[3] == 1){
             AddHeaderText("Commander")
-        } else if(createUnit[3] == 2){
+        } else if(CreateSoldier[3] == 2){
             AddHeaderText("Group Leader")
-        } else if(createUnit[3] == 3){
+        } else if(CreateSoldier[3] == 3){
             AddHeaderText("Soldier")
         }
         roleConfirmed = true;
@@ -64,705 +49,243 @@ window.addEventListener("message", (event) =>{
     }else if(data.action.includes("menuitems")){
         var objects = data.action.split(':');
         InventoryItems = []
-        InventoryItems.push[Number(objects[1]),Number(objects[2]),Number(objects[3])]
+        InventoryItems.push[Number(objects[1]),Number(objects[2]),Number(objects[2])]
     }
 })
 
-function ColumnStyles(){
-                                                                        //Section 3
-    section_left.addEventListener("mouseover", function()
-    {
-        section_left.style.backgroundColor="rgba(112, 112, 112, 0.8)";
-        //ColumnChildMouseOver(section_left)
-    });
-    section_left.addEventListener("mouseleave", function()
-    {
-        section_left.style.backgroundColor="rgba(207, 207, 207, 0.2)";
-        //ColumnChildMouseLeave(section_left)
-    });
-    section_center.addEventListener("mouseover", function()
-    {
-        section_center.style.backgroundColor="rgba(112, 112, 112, 0.8)";
-        //ColumnChildMouseOver(section_center)
-    });
-    section_center.addEventListener("mouseleave", function()
-    {
-        section_center.style.backgroundColor="rgba(207, 207, 207, 0.2)";
-        //ColumnChildMouseLeave(section_center)
-    });
-    section_right.addEventListener("mouseover", function()
-    {
-        section_right.style.backgroundColor="rgba(112, 112, 112, 0.8)";
-        ColumnChildMouseOver(section_right)
-    });
-    section_right.addEventListener("mouseleave", function()
-    {
-        section_right.style.backgroundColor="rgba(207, 207, 207, 0.2)";
-        ColumnChildMouseLeave(section_right)
-    });
-                                                                        //Section 2
-    section_left2.addEventListener("mouseover", function()
-    {
-        section_left2.style.backgroundColor="rgba(112, 112, 112, 0.8)";
-        ColumnChildMouseOver(section_left2)
-    });
-    section_left2.addEventListener("mouseleave", function()
-    {
-        section_left2.style.backgroundColor="rgba(207, 207, 207, 0.2)";
-        ColumnChildMouseLeave(section_left2)
-    });
-    section_right2.addEventListener("mouseover", function()
-    {
-        section_right2.style.backgroundColor="rgba(112, 112, 112, 0.8)";
-        ColumnChildMouseOver(section_right2)
-    });
-    section_right2.addEventListener("mouseleave", function()
-    {
-        section_right2.style.backgroundColor="rgba(207, 207, 207, 0.2)";
-        ColumnChildMouseLeave(section_right2)
-    });
-}
-function ColumnChildMouseOver(column){
-    for(var c of column.children){
-        c.style.color = "rgba(71,71,71,1)"
+
+function TeamSelection(optionalDestroy){
+    if(optionalDestroy!=""){
+        document.getElementById(optionalDestroy).remove()
+        CreateSoldier[0] = 0
     }
+    var teamsdiv = AddDiv(article,0,0,100,95,"","")
+    teamsdiv.id = "teamsdiv"
+    var div = AddDiv(teamsdiv,0,25,50,50,col1,col2,CharacterSelection,"")
+    var div2 = AddDiv(teamsdiv,50,25,50,50,col1,col2,CharacterSelection,"")
+    
+    AddText(div,"h1",teams[0],-5,-2,true,25,40,col2,col1,SetTeam,1)
+    AddText(div2,"h1",teams[1],0,-2,true,25,40,col2,col1,SetTeam,2)
 }
-function ColumnChildMouseLeave(column){
-    for(var c of column.children){
-        c.style.color = "rgba(22,230,219,0.7)"
-    }
+function SetTeam(team){
+    CreateSoldier[0]=team
+    var teamtext = teams[CreateSoldier[0]-1].toString()
+    HeaderTxt(["WarMod",teamtext])
 }
-function AddEventListeners(obj, basecolor, highlightColor,buttonname){
-    obj.addEventListener("mouseover", function()
-    {
-        obj.style.backgroundColor=highlightColor;
-    });
-    obj.addEventListener("mouseleave", function()
-    {
-        obj.style.backgroundColor=basecolor; 
-    });
-    obj.addEventListener("click", function()
-    {
-        trigger(buttonname)
-    });
-}
-function Hideobj(obj){
-    obj.style.display = "none"
-}
-function Showobj(obj){
-    obj.style.display = "block"
-}
-function trigger(button){
-    if(button == "twoleft"){
-        if(createUnit[0]===0){
-            createUnit[0]=1
-            Hideobj(sec2)
-            Hideobj(section_center)
-            //Hideobj(section_right)
-            Showobj(sec3)
-            CreateUnitList(1)
-            ContinueButton(section_left,CreateUnitTypeList)
-            menu += 1
-            AddHeaderText(teams[0])
-            
-        }
-    }
-    if(button == "tworight"){
-        if(createUnit[0]===0){
-            createUnit[0]=2
-            Hideobj(sec2)
-            Hideobj(section_center)
-            //Hideobj(section_right)
-            Showobj(sec3)
-            CreateUnitList(2)
-            ContinueButton(section_left,CreateUnitTypeList)
-            menu += 1
-            AddHeaderText(teams[1])
-        }
-    }
-}
-function AddHeaderText(text){
-    var p = document.createElement("h1");
-    p.className = "txtheader"
-    var text = document.createTextNode(text);
-    p.appendChild(text);
-    header.appendChild(p);
-}
-function CreateUnitList(team){
-    var p = document.createElement("h2");
-    p.className = "txtheader"
-    var text = document.createTextNode("Select Unit");
-    p.appendChild(text);
-    section_left.appendChild(p);
-    if(team===1){
-        for(var i = 0; i< units1.length; i++){
-            CElement(section_left,"h3",units1[i], SelectUnit,1,i+1)
-        }
+function CharacterSelection(optionalDestroy){
+    if(optionalDestroy!=""){
+        document.getElementById(optionalDestroy).remove();
+        CreateSoldier[1] = 0
     }
     else{
-        for(var i = 0; i< units1.length; i++){
-            CElement(section_left,"h3",units2[i], SelectUnit,2,i+1)
-        }
+        document.getElementById("teamsdiv").remove();
     }
+    var unitsDiv = AddDiv(article,0,7,100,10,"",col3)
+    unitsDiv.id = "unitsdiv"
+    var index = 0
+    if(CreateSoldier[0]===2)
+    {
+        index=5
+    }
+    var posX = 10;
+    for(var i = index; i<index+5;i++){
+        var button = AddText(unitsDiv,"h2",Units[i],posX,-2,true,1.5,1.5,col2,col1,SetCharacter,index - i+1)
+        posX += 15
+    }
+    var button = AddText(unitsDiv,"h2","Continue",85,800,true,1.5,1.5,col2,col1,UnitTypeSelection, "")
+    var buttonb = AddText(unitsDiv,"h2","Back",75,800,true,1.5,1.5,col2,col1,TeamSelection,"unitsdiv")
 }
-function SelectUnit(team, unit){
-    if(team === 1){
-        createUnit[1] = unit
-    }
-    else{
-        createUnit[1] = unit + 5
-    }
-    var message = "unit:" + createUnit[0].toString() + ":" + createUnit[1].toString();
+function SetCharacter(character){
+    CreateSoldier[1] = character
+    var message = `unit:${CreateSoldier[0]}:${CreateSoldier[1]}`
     MainScriptCallback(message)
 }
-function SelectUnitType(type){
-    createUnit[2] = type
-    var message = "type:" + createUnit[2].toString();
+function UnitTypeSelection(optionalDestroy){
+    if(CreateSoldier[1]!=0){
+        if(optionalDestroy!=""){
+            document.getElementById(optionalDestroy).remove();
+            CreateSoldier[2] = 0
+        }
+        else{
+            document.getElementById("unitsdiv").remove();
+        }
+        var UnitTypeDiv = AddDiv(article,0,7,100,10,"",col3)
+        UnitTypeDiv.id = "unittypediv"
+        var posX = 10;
+        for(var i = 0; i<UnitTypes.length;i++){
+            var button = AddText(UnitTypeDiv,"h2",UnitTypes[i],posX,-2,true,1.5,1.5,col2,col1,SetUnitType,i+1)
+            posX += 20
+        }
+        AddText(UnitTypeDiv,"h2","Continue",85,800,true,1.5,1.5,col2,col1,RoleSelection)
+        AddText(UnitTypeDiv,"h2","Back",75,800,true,1.5,1.5,col2,col1,CharacterSelection,"unittypediv")
+    }
+}
+function SetUnitType(type){
+    CreateSoldier[2] = type
+    message = `type:${CreateSoldier[2]}`
     MainScriptCallback(message)
-}
-function CElement(parentelement,elementtype, text, cb, param1, param2){
-    var p = document.createElement(elementtype);
-    p.className = "temp"
-    p.addEventListener("mouseover", function(){p.style.color = "rgba(71,71,71,1)"});
-    p.addEventListener("mouseleave", function(){p.style.color = "rgba(22,230,219,0.7)"});
-    p.addEventListener("click", function(){
-        var menuobjs = document.getElementsByClassName("temp")
-        for(var obj of menuobjs){
-            obj.style.backgroundColor = ""
-        }
-        p.style.color = "rgba(71,71,71,1)"
-        p.style.backgroundColor = "rgba(40,40,40,0.6)"
-        cb(param1,param2)
-    });
-    p.style.display="inline-block";
-    p.style.cursor = "pointer";
-    p.style.fontSize="2em";
-    p.style.padding="0.7em 1em 0.7em 1em";
-    var text = document.createTextNode(text);
-    p.appendChild(text);
-    parentelement.appendChild(p);
-}
-function ContinueButton(parentelement, cb, replaceText = "",param1,param2){
-    var p = document.createElement("h3");
-    p.addEventListener("mouseover", function(){p.style.color = "rgba(71,71,71,1)"});
-    p.addEventListener("mouseleave", function(){p.style.color = "rgba(22,230,219,0.7)"});
-    p.addEventListener("click", function(){
-        for(var v of section_center.children){
-            section_center.removeChild(section_center.firstChild)
-        }
-        Hideobj(section_center)
-        p.style.color = "rgba(71,71,71,1)"
-        cb(param1,param2);
-    });
-    p.style.display="block";
-    p.style.position="absolute"
-    p.style.cursor = "pointer";
-    p.style.fontSize="2em";
-    p.style.padding="0.7em 1em 0.7em 1em";
-    p.style.bottom = "0%"
-    p.style.left = "20%"
-    if(replaceText == null || replaceText == ""){
-        var text = document.createTextNode("Continue");
-    }else{
-        var text = document.createTextNode(replaceText);
-    }
-    
-    p.appendChild(text);
-    parentelement.appendChild(p);
-    
-}
-function CreateUnitTypeList(){
-    if(createUnit[1]>=1 && menu === 1){
-        var p = document.createElement("h2");
-        p.className = "txtheader"
-        var text = document.createTextNode("Select Type");
-        p.appendChild(text);
-        section_left.appendChild(p);
-        for(var child in section_left.children){
-            section_left.removeChild(section_left.firstChild)
-        }
-        for(var i = 0; i < unitTypes.length; i++){
-            CElement(section_left,"h3",unitTypes[i],SelectUnitType, i+1)
-        }
-        menu += 1
-        ContinueButton(section_left,RoleSelection)
-    }
-    
-}
-function SetRole(role){
-    createUnit[3] = role
 }
 function RoleSelection(){
-    if(createUnit[2]>=1 && menu === 2){
-        for(var child in section_left.children){
-            section_left.removeChild(section_left.firstChild)
-        }
-        var p = document.createElement("h2");
-        p.className = "txtheader"
-        var text = document.createTextNode("Select Role");
-        p.appendChild(text);
-        section_left.appendChild(p);
-        for(var i = 0; i < roles.length; i++){
-            CElement(section_left,"h3",roles[i],SetRole, i+1)
-        }
-        menu += 1
-        ContinueButton(section_left,CloseNUI)
-    }
-}
-function CloseNUI(){
-    if(roleConfirmed === false) {
-        MainScriptCallback( "role:" + createUnit[3].toString())
-    }
-    CreateGameMenu()
-    MainScriptCallback('close')
-}
-function CreateMenu(menuIndex){
-    for(var i = 0; i< 10; i++){
+    if(CreateSoldier[2]!=0){
         try{
-            section_left.removeChild(section_left.firstChild)
+            document.getElementById("unittypediv").remove();
+        }catch{}
+        var RolesDiv = AddDiv(article,0,7,100,10,"",col3)
+        RolesDiv.id = "rolesdiv"
+        var posX = 10;
+        for(var i = 0; i< Roles.length; i++){
+            AddText(RolesDiv,"h2",Roles[i],posX,-2,true,1.5,1.5,col2,col1,SetRole, i + 1)
+            posX += 20
         }
-        catch{
-            
-        }
+        AddText(RolesDiv,"h2","Ready",85,800,true,1.5,1.5,col2,col1,AcceptSelections)
+        AddText(RolesDiv,"h2","Back",75,800,true,1.5,1.5,col2,col1,UnitTypeSelection,"rolesdiv")
     }
-    var p = document.createElement("h2");
-    p.className = "txtheader"
-    var menutext = ""
-    var menutextend = true
-    if(menuIndex === 0){menutext = "Groups"}
-    else if(menuIndex === 1){menutext = "Buildings"}
-    else if(menuIndex === 2){menutext = "Units"}
-    else if(menuIndex === 3){menutext = "Shop"}
-    else if(menuIndex === 4){menutext = "Inventory", menutextend=false}
-    if(menutextend){menutext = menutext + " Menu"}
-    var text = document.createTextNode(menutext);
-    p.appendChild(text);
-    section_left.appendChild(p);
-    if(menuIndex===0){
-        for(var i = 0; i< 10;i++){
-            CElement(section_left,"h3", "Group " + (i+1).toString(),GroupFunctions,i+1)
+}
+function SetRole(role){
+    CreateSoldier[3] = role
+}
+function AcceptSelections(){
+    if(CreateSoldier[3]!=0){
+        message = `role:${CreateSoldier[3]}`
+        MainScriptCallback(message)
+        document.getElementById("rolesdiv").remove();
+        if(CreateSoldier[3]===1){
+            CreateMenu("",MainMenu1)
         }
-    }else if(menuIndex===1){
+        else{CreateMenu("",MainMenu2)}
         
-    }else if(menuIndex===2){
-        MainScriptCallback("units")
-        for(var i = 0; i< teamUnits.length;i++){
-            CElement(section_left,"h3",teamUnits[i])
-        }
-    }else if(menuIndex===3){
-        for(var i = 0; i < ShopCategories.length; i++){
-            CElement(section_left,"h3",ShopCategories[i], ShopMenus, i)
-        }
-    }else if(menuIndex===4){
-        Showobj(section_center)
-        Inventory()
-    }
-    ContinueButton(section_left,CreateGameMenu,"Back")
-}
-function Inventory(){
-    for(var child of section_center.children){
-        try{section_center.removeChild(section_center.firstChild)}catch{}
-    }
-    var sec = document.createElement("SECTION")
-    section_center.appendChild(sec)
-    var posX = 5
-    var posY = 5
-    var posXOffset = 30
-    var posYOffset = 25
-    var message = "inventory:"
-    if(InventoryItems[0]!=0){
-        var sendMessage = message + "0"
-        createShopElement(sec,"MedKit","Amount: " + InventoryItems[0].toString(),"",posX,posY,sendMessage.toString())
-        posX = posX + posXOffset
-        if(posX>posXOffset*3){
-            posX = 5
-            posY = posY + posYOffset
-        }
-    }
-    if(InventoryItems[1]!=0){
-        var sendMessage = message + "1"
-        createShopElement(sec,"Armour","Amount: " + InventoryItems[1].toString(),"",posX,posY,sendMessage.toString())
-        posX = posX + posXOffset
-        if(posX>posXOffset*3){
-            posX = 5
-            posY = posY + posYOffset
-        }
-    }
-    if(InventoryItems[2]!=0){
-        var sendMessage = message + "2"
-        createShopElement(sec,"NightVision","Amount: " + InventoryItems[2].toString(),"",posX,posY,sendMessage.toString())
-        posX = posX + posXOffset
-        if(posX>posXOffset*3){
-            posX = 5
-            posY = posY + posYOffset
-        }
     }
 }
-function BuildingsMenu(){
-
-}
-function ShopMenus(menu){
-    for(var i = 0; i< 15; i++){
-        try{
-            section_left.removeChild(section_left.firstChild)
-        }
-        catch{
-            
-        }
-    }
-    var p = document.createElement("h2");
-    p.className = "txtheader"
-    
-    if(menu === 0){
-        var text = document.createTextNode("Weapons");
-        p.appendChild(text);
-        section_left.appendChild(p);
-        ShopWeaponsMenu()
-    } else if(menu === 1){
-        var text = document.createTextNode("Vehicles");
-        p.appendChild(text);
-        section_left.appendChild(p);
-        ShopVehiclesMenu()
-    } else if(menu === 2){
-        var text = document.createTextNode("Gears");
-        p.appendChild(text);
-        section_left.appendChild(p);
-        ShopGearsMenu()
-    }else if(menu === 3){
-        var text = document.createTextNode("Inventory");
-        p.appendChild(text);
-        section_left.appendChild(p);
-    }
-    ContinueButton(section_left,CreateMenu,"Back",3)
-}
-function ShopWeaponsMenu(){
-    
-    Showobj(section_center);
-        for(var v of section_center.children){
-            section_center.removeChild(section_center.firstChild)
-        }
-        var functions = ["Pistols", "Shotgun","SMG","LMG","Rifle","Sniper","Throwable","Launchers","Special"]
-        
-        for(var i = 0; i<functions.length;i++){
-            CElement(section_left,"h3",functions[i], shopsShowElements,i+1)
-        }
-}
-function shopsShowElements(category){
-    var folder = `https://${GetParentResourceName()}/ui/images/`
-    for(var child of section_center.children){
-        try{section_center.removeChild(section_center.firstChild)}catch{}
-    }
-    var sec = document.createElement("SECTION")
-    section_center.appendChild(sec)
-    var posX = 5
-    var posY = 5
-    var posXOffset = 30
-    var posYOffset = 25
-    var file = ""
-    var guns = []
-    var prices = []
-    var fileNames = []
-    var message = "gun:"
-    if(category === 1){
-        guns = ["Ap Pistol","Combat Pistol","Pistol","Pistol 50","Revolver",
-        "Revolver Mk2","Sns Pistol","Sns Pistol Mk2","Vintage Pistol","Marksman Pistol"]
-        prices = [500,600,300,400,600,500,700,600,800,500]
-        fileNames = ["appistol","combatpistol","pistol","pistol50","revolver",
-        "revolver","snspistol","snspistol","vintagepistol","marksmanpistol"]
-        folder = folder + "pistols/"
-        message = message + "0:"
-    }
-    if(category === 2){
-        guns = ["Assault Shotgun","Bullpup Shotgun","Heavy Shotgun", 
-        "Musket","Pump Shotgun"]
-        prices = [1200,900,1300,600,700]
-        fileNames = ["assaultshotgun","bullpupshotgun","heavyshotgun", 
-        "musket","pumpshotgun"]
-        folder = folder + "shotguns/"
-        message = message + "1:"
-    }
-    if(category === 3){
-        guns = ["Assault SMG","Combat PDW","Machine Pistol", 
-        "Micro SMG","Mini SMG","SMG","SMG Mk2"]
-        prices = [1300,1300,900,1100,1000,1400,1800]
-        fileNames = ["AssaultSMG","CombatPDW","MachinePistol", 
-        "MicroSMG","MicroSMG","SMG","SMG"]
-        folder = folder + "Smg/"
-        message = message + "2:"
-    }
-    if(category === 4){
-        guns = ["Combat MG","Combat MG Mk2","Gusenberg", 
-        "MG"]
-        prices = [1800,2300,1500,1700]
-        fileNames = ["CombatMG","CombatMG","Gusenberg", 
-        "MG"]
-        folder = folder + "Lmg/"
-        message = message + "3:"
-    }
-    if(category === 5){
-        guns = ["Advanced Rifle","Assault Rifle","Assault Rifle Mk2", "Bullpup Rifle","Bullpup Rifle Mk2",
-        "Carbine Rifle","Carbine Rifle Mk2","Compact Rifle","Special Carbine","Special Carbine Mk2"]
-        prices = [1800,1500,2000,1700,2200,1800,2300,1400,1600,2100]
-        fileNames = ["AdvancedRifle","AssaultRifle","AssaultRifle", "BullpupRifle","BullpupRifle",
-        "CarbineRifle","CarbineRifle","CompactRifle","SpecialCarbine","SpecialCarbine"]
-        folder = folder + "Rifle/"
-        message = message + "4:"
-    }
-    if(category === 6){
-        guns = ["Heavy Sniper","Heavy Sniper Mk2","Marksman Rifle", "MarksmanRifle Mk2","Sniper Rifle"]
-        prices = [2200,3200,1800,2800,1500]
-        fileNames = ["HeavySniper","HeavySniper","MarksmanRifle", "MarksmanRifle","SniperRifle"]
-        folder = folder + "Sniper/"
-        message = message + "5:"
-    }
-    if(category === 7){
-        guns = ["BZGas","Grenade","Molotov", "Proximity Mine","Smoke Grenade","Sticky Bomb"]
-        prices = [500,600,600,1000,400,1300]
-        fileNames = ["BZGas","Grenade","Molotov", "ProximinityMine","SmokeGrenade","StickyBomb"]
-        folder = folder + "Throwable/"
-        message = message + "6:"
-    }
-    if(category === 8){
-        guns = ["Compact Grenade Launcher","Homing Launcher","RPG"]
-        prices = [3000,5000,4000]
-        fileNames = ["CompactLauncher","HomingLauncher","RPG"]
-        folder = folder + "Launchers/"
-        message = message + "7:"
-    }
-    if(category === 9){
-        guns = ["Fire Extinguisher","Flashlight","Knife", "PetrolCan","Wrench"]
-        prices = [400,100,400,300,1000]
-        fileNames = ["FireExtinguisher","Flashlight","Knife", "PetrolCan","Wrench"]
-        folder = folder + "Special/"
-        message = message + "8:"
-    }
-    for(var i = 0; i<guns.length;i++){
-        file = folder + fileNames[i] +".png"
-        var sendMessage = message + i.toString()
-        createShopElement(sec,guns[i],"Price: " + prices[i].toString(),file.toString(),posX,posY,sendMessage)
-        posX = posX + posXOffset
-        if(posX>posXOffset*3){
-            posX = 5
-            posY = posY + posYOffset
-        }
-    }
-}
-function createShopElement(parent,text,subtext,imgLocation, divleft,divtop,mainscriptMessage){
+function AddDiv(parent,posX,posY,width,height,hlcol,basecol,callback,param1,param2){
     var div = document.createElement("div")
-    div.style.display = "inline-block"
-    div.style.position="absolute"
-    div.style.left = divleft.toString() + "%"
-    div.style.top = divtop.toString() + "%"
-    div.style.padding = "1%"
-    div.style.textAlign="center"
-    div.style.width = "20%"
-    div.style.height = "15%"
     div.addEventListener("mouseover", function(){
-        div.style.backgroundColor = "rgba(0,0,0,0.6)"
+        div.style.backgroundColor = `rgba(${hlcol},0.4)`
     })
     div.addEventListener("mouseleave", function(){
-        div.style.backgroundColor = ""
+        if(basecol == ""){
+            div.style.backgroundColor = ""
+        }else{
+            div.style.backgroundColor = `rgba(${basecol},0.4)`
+        }
     })
     div.addEventListener("click", function(){
-        MainScriptCallback(mainscriptMessage.toString())
+        callback(param1,param2)
     })
-    if(imgLocation!= ""){
-        var img = document.createElement("img")
-        img.src = imgLocation
-        div.appendChild(img)
+    div.style.backgroundColor = `rgba(${basecol},0.8)`
+    div.style.display = "block"
+    div.style.position = "absolute"
+    div.style.width = width.toString() + "%"
+    div.style.height = height.toString() + "%"
+    div.style.left = posX.toString() + "%"
+    div.style.top = posY.toString() + "%"
+    if(basecol == ""){
+        div.style.backgroundColor = ""
+    }else{
+        div.style.backgroundColor = `rgba(${basecol},0.4)`
     }
-    var header = document.createElement("h3")
-    var textnode = document.createTextNode(text)
-    var subheader = document.createElement("h4")
-    var subtext = document.createTextNode(subtext)
-    header.appendChild(textnode)
-    subheader.appendChild(subtext)
-    div.appendChild(header)
-    div.appendChild(subheader)
     parent.appendChild(div)
+    return div
 }
-function ShopVehiclesMenu(){
-    Showobj(section_center);
-    for(var v of section_center.children){
-        section_center.removeChild(section_center.firstChild)
-    }
-    var functions = ["Land Vehicles","Planes","Helicopters","Boats","Special"]
-        
-    for(var i = 0; i< functions.length; i++){
-        CElement(section_left,"h3",functions[i],ShopVehiclesSecCenter,i+1)
-    }
-}
-function ShopVehiclesSecCenter(category){
-    for(var child of section_center.children){
-        try{section_center.removeChild(section_center.firstChild)}catch{}
-    }
-    var sec = document.createElement("SECTION")
-    section_center.appendChild(sec)
-    var posX = 5
-    var posY = 5
-    var posXOffset = 30
-    var posYOffset = 25
-    var vehicles = []
-    var prices = []
-    var message = "vehicle:"
-    if(category === 1){
-        vehicles = ["Apc","Barracks","Barracks Semi","Barrage","Chernobog","Crusader","Half-Track",
-        "Rhino","Vetir","Insurgent","Winky","Squaddie"]
-        prices = [8000,4000,4500,6000,10000,3500,8500,15000,3000,4000,5000,1000]
-        message = message + "1:"
-    }
-    if(category === 2){
-        vehicles = ["Avenger","Bombushka","Hydra","Lazer","Molotok","Nokota","Starling",
-        "Strikeforce","Titan","Tula","Volatol"]
-        prices = [15000,18000,55000,40000,30000,25000,25000,30000,20000,25000,25000]
-        message = message + "2:"
-    }
-    if(category === 3){
-        vehicles = ["Akula","Annihilator","Annihilator Stealth","Cargobob","Hunter","Savage","Valkyrie"]
-        prices = [25000,30000,35000,10000,45000,45000,20000]
-        message = message + "3:"
-    }
-    if(category === 4){
-        vehicles = ["Weaponized Dinghy","Patrol Boat","Seashark"]
-        prices = [3000,6000,1000]
-        message = message + "4:"
-    }
-    if(category === 5){
-        vehicles = ["Anti-Aircraft","Bulldozer","Enduro","Manchez","Scorcher","Verus"]
-        prices = [3000,3000,1000,1200,300,1300]
-        message = message + "5:"
-    }
-    for(var i = 0; i<vehicles.length;i++){
-        var sendMessage = message + i.toString()
-        createShopElement(sec,vehicles[i],"Price: " + prices[i].toString(),"",posX,posY,sendMessage)
-        posX = posX + posXOffset
-        if(posX>posXOffset*3){
-            posX = 5
-            posY = posY + posYOffset
-        }
-    }
-}
-function ShopGearsMenu(action){
-    if(action === 1){
-        
-    }
-    else{
-        var functions = ["Products"]
-        
-        for(var i of functions){
-            CElement(section_left,"h3",i,CreateGearsMenu)
-        }
-    }
-}
-function CreateGearsMenu(){
-    Showobj(section_center);
-    for(var v of section_center.children){
-        try{section_center.removeChild(section_center.firstChild)}catch{}
-    }
-    var sec = document.createElement("SECTION")
-    section_center.appendChild(sec)
-    var posX = 5
-    var posY = 5
-    var posXOffset = 30
-    var posYOffset = 25
-    var prices = [200,300,500]
-    var message = "item:"
-    for(var i = 0; i<Items.length;i++){
-        var sendMessage = message + i.toString()
-        createShopElement(sec,Items[i],"Price: " + prices[i].toString(),"",posX,posY,sendMessage)
-        posX = posX + posXOffset
-        if(posX>posXOffset*3){
-            posX = 5
-            posY = posY + posYOffset
-        }
-    }
-}
-function GroupFunctions(group){
-    Showobj(section_center);
-    var functions = ["Info", "Task","Units","Settings"]
-    for(var v of section_center.children){
-        section_center.removeChild(section_center.firstChild)
-    }
-    var pos = 6
-    var posnext = 20
-    var sec = document.createElement("SECTION")
-    section_center.appendChild(sec)
-    for(var i = 0; i<functions.length;i++){
-        var text = functions[i]
-        CObjCenter(sec,pos,posnext, i,text)
-    }
-}
-function CObjCenter(parent,pos, posnext, element, text, size){
-    
-    var p = document.createElement("h1")
-    p.style.display = "block"
-    p.style.position = "absolute"
-    p.style.padding = "0 5% 0 5%"
-    p.addEventListener("mouseover", function(){
-        p.style.color = "rgba(71,71,71,1)"
-    })
-    p.addEventListener("mouseleave", function(){
-        p.style.color = "rgba(22,230,219,0.7)"
-    })
-    p.addEventListener("click", function(){
-        for(var v of parent.children){
-            v.style.backgroundColor = ""
-        }
-        p.style.backgroundColor = "rgba(71,71,71,0.6)"
-    })
-    p.addEventListener("click", function(){
-        if(element===0){
-
-        }else if(element === 1){
-
-        }else if(element===2){
-
-        }else{
-            
-        }
-    })
-    if(size>0){
-        p.style.fontSize = size.toString() + "em"
-    }
-    p.style.left = (pos + (posnext * element)).toString() + "%"
-    var ptext = document.createTextNode(text)
-    p.appendChild(ptext)
-    parent.appendChild(p)
-}
-function CreateGameMenu(){
-    
-    if(menu === 3){
-        for(var i = 0; i< 15; i++){
-            try{
-                section_left.removeChild(section_left.firstChild)
+function AddText(parent,elementType,text,posX,posY,isButton,paddingV,paddingH,hlcol,basecol,callback,param1,param2){
+    var button = document.createElement(elementType)
+    if(isButton){
+        button.addEventListener("mouseover", function(){
+            button.style.color = `rgba(${hlcol},0.8)`
+        })
+        button.addEventListener("mouseleave", function(){
+            button.style.color =`rgba(${basecol},0.8)`
+        })
+        button.addEventListener("click", function(){
+            for(var obj of parent.children){
+                obj.style.backgroundColor = ""
             }
-            catch{
-                
+            button.style.backgroundColor =`rgba(${hlcol},1)`
+            callback(param1,param2)
+        })
+    }
+    button.style.display = "block"
+    button.style.position = "absolute"
+    button.style.color = `rgba(${basecol},0.8)`
+    button.style.left = posX.toString() + "%"
+    button.style.top = posY.toString() + "%"
+    button.style.padding = `${paddingV}% ${paddingH}% ${paddingV}% ${paddingH}%`
+    var text = document.createTextNode(text)
+    button.appendChild(text)
+    parent.appendChild(button)
+    return button
+}
+function AddObject(parent,elementType,text,additionalText,posX,posY,width,height,isButton,paddingV,paddingH,hlcol,basecol,callback,param1,param2){
+    var div = document.createElement("div")
+    var button = document.createElement(elementType)
+    if(isButton){
+        div.addEventListener("mouseover", function(){
+            div.style.color = `rgba(${hlcol},0.8)`
+            button.style.color = `rgba(${basecol},1)`
+        })
+        div.addEventListener("mouseleave", function(){
+            div.style.color = `rgba(${basecol},0.8)`
+            div.style.backgroundColor = ""
+            button.style.color = `rgba(${hlcol},1)`
+        })
+        div.addEventListener("click", function(){
+            for(var obj of parent.children){
+                obj.style.backgroundColor = ""
             }
-        }
-        var p = document.createElement("h2");
-        p.className = "txtheader"
-        var text = document.createTextNode("Main Menu");
-        p.appendChild(text);
-        section_left.appendChild(p);
-        if(createUnit[3] == 1){
-            CElement(section_left,"h3",MenuList[0],CreateMenu, 0)
-            CElement(section_left,"h3",MenuList[1],CreateMenu, 1)
-            CElement(section_left,"h3",MenuList[3],CreateMenu, 3)
-            CElement(section_left,"h3",MenuList[4],CreateMenu, 4)
-        }
-        else if(createUnit[3] == 2){
-            CElement(section_left,"h3",MenuList[2],CreateMenu, 2)
-            CElement(section_left,"h3",MenuList[3],CreateMenu, 3)
-            CElement(section_left,"h3",MenuList[4],CreateMenu, 4)
-        }
-        else if(createUnit[3] == 3){
-            CElement(section_left,"h3",MenuList[3],CreateMenu, 3)
-            CElement(section_left,"h3",MenuList[4],CreateMenu, 4)
-        }
+            div.style.backgroundColor =`rgba(${hlcol},0.8)`
+            button.style.color = `rgba(${basecol},1)`
+            callback(param1,param2)
+        })
+    }
+    div.style.display = "block"
+    div.style.position = "absolute"
+    div.style.color = `rgba(${basecol},0.8)`
+    div.style.left = posX.toString() + "%"
+    div.style.top = posY.toString() + "%"
+    div.style.width = width.toString() + "%"
+    div.style.height = height.toString() + "%"
+    div.style.padding = `${paddingV}% ${paddingH}% ${paddingV}% ${paddingH}%`
+    button.style.color = `rgba(${hlcol},0.8)`
+    var text = document.createTextNode(text)
+    button.appendChild(text)
+    div.appendChild(button)
+    if(additionalText!=""){
+        var additional = document.createElement("h4")
+        var atext = document.createTextNode(additionalText)
+        additional.style.color = `rgba(${basecol},0.9)`
+        additional.appendChild(atext)
+        div.appendChild(additional)
+    }
+    parent.appendChild(div)
+    return button
+}
+function HeaderTxt(text){
+    var header = document.getElementById("header")
+    for(var child of header.children){
+        header.removeChild(header.lastChild)
+    }
+    header.style.backgroundColor = `rgba(${col1},0.8)`
+    var posX = 80
+    var offset = 20
+    for(var v of text){
+        AddText(header,"h1",v,posX,0,false,0,0,"",col2)
+        posX-=offset
     }
 }
-function MainScriptCallback(message){
+function openNav() {
+    document.getElementById("myNav").style.width = "25%";
+    MainScriptCallback("players",WritePlayers)
+}
+function closeNav() {
+    document.getElementById("myNav").style.width = "0%";
+}
+function WritePlayers(message){
+    var players = message.split(':')
+    for(var i = 0; i< players.length; i++){
+        var obj = document.getElementById(`p${i}`)
+        obj.innerHTML = players[i];
+    }
+}
+function MainScriptCallback(message, callback){
     message = message.toString();
     try{
         fetch(`https://${GetParentResourceName()}/getItemInfo`, {
@@ -776,19 +299,28 @@ function MainScriptCallback(message){
     }).then(resp => resp.json()).then(
         function(resp) {
             console.log(resp)
-            if(resp === "close"){
-                Hideobj(header)
-                Hideobj(sec3)
-            }
-            else if(resp.includes("units")){
-                var units = resp.split(":");
-                teamUnits = [0,0,0,0,0,0,0,0];
-                for(var i = 1; i<units.length;i++){
-                    teamUnits[i-1] = units[i];
-                }
+            if(callback!=""){
+                callback(resp)
             }
             else{
-
+                if(resp === "close"){
+                    Hideobj(header)
+                    Hideobj(sec3)
+                }
+                else if(resp.includes("units")){
+                    var units = resp.split(":");
+                    teamUnits = [0,0,0,0,0,0,0,0];
+                    for(var i = 1; i<units.length;i++){
+                        teamUnits[i-1] = units[i];
+                    }
+                }
+                else if(resp.includes("Inventory")){
+                    var msg = resp.split(';')[1]
+                    MenuFunctions(MainMenu1[3],msg)
+                }
+                else{
+    
+                }
             }
         } 
         
@@ -798,98 +330,253 @@ function MainScriptCallback(message){
         console.log("Can't send message to main script")
     }
 }
-function CloseButton(){
-    var p = document.createElement("h1");
-    p.className = "txtheader"
-    p.style.color = "rgba(22,230,219,1)"
-    p.style.fontSize = "4em"
-    p.style.display = "block"
-    p.style.position = "absolute"
-    p.style.right = "0"
-    p.style.top = "0%"
-    p.style.fontFamily = "monospace"
-    p.style.padding = "0.4% 5% 0.4% 5%"
-    p.style.backgroundColor = "rgba(10,10,10,1)"
-    p.addEventListener("mouseover", function()
-    {
-        p.style.backgroundColor="rgba(20,20,20,1)";
-        p.style.color = "rgba(200,0,0,1)"
-        //ColumnChildMouseOver(section_left)
-    });
-    p.addEventListener("mouseleave", function()
-    {
-        p.style.backgroundColor="rgba(10,10,10,1)";
-        p.style.color = "rgba(22,230,219,1)"
-        //ColumnChildMouseLeave(section_left)
-    });
-    p.addEventListener("click", function()
-    {
-        CloseNUI();
-        for(var v of section_center.children){
-            section_center.removeChild(section_center.firstChild)
-        }
-        Hideobj(section_center)
-    });
-    var text = document.createTextNode("X");
-    p.appendChild(text);
-    header.appendChild(p);
+function Hideobj(obj, bool){
+    if(bool === true){obj.style.display = "none"}
+    else{obj.style.display = "block"}
 }
-function CreatePlayersColumnRight(team1, team2){
-    Showobj(section_right)
-    for(var child of section_right.children){
+function CreateMenu(optionalName,objects){
+    try{
+        document.getElementById("menudiv").remove()
+    }catch{}
+    var div = AddDiv(article,0,7,25,93,col3,"")
+    div.id = "menudiv"
+    var text ="Menu"
+    if(optionalName!=""){text = optionalName}
+    AddText(div,"h1",text,25,5,false,2,3,"",col2)
+    var posY = 15
+    for(var i = 0; i<objects.length;i++){
+        AddText(div,"h3",objects[i],20,posY,true,2,5,col1,col3,MenuFunctions,objects[i],"")
+        posY+=5
+    }
+    if(CreateSoldier[3]===1){AddText(div,"h2","Return",60,90,true,1,5,col1,col3,CreateMenu,"",MainMenu1)}
+    else{AddText(div,"h2","Return",60,90,true,1,5,col1,col3,CreateMenu,"",MainMenu1)}
+}
+function MenuFunctions(menu,optionalMenuItems){
+    try{
+        document.getElementById("shoppanel").remove()
+    }catch{}
+    var weaponTypes = ["Pistols","Shotguns","SMG","LMG","Rifle","Sniper","Throwable","Launchers","Special"]
+    var vehicleTypes = ["Land Vehicles","Planes","Helicopters","Boats","Special Vehicles"]
+    var newMenu = []
+    if(menu == MainMenu1[0]){                           //TODO
+        newMenu = ["Group 1","Group 2","Group 3","Group 4","Group 5","Group 6","Group 7","Group 8","Group 9","Group 10"]
+        CreateMenu("Groups",newMenu)
+    }else if(menu == MainMenu1[1]){                     //TODO
+        newMenu = ["Production","Defensive","Misc"]
+        CreateMenu("Buildings",newMenu)
+    }else if(menu == MainMenu2[0]){                     //TODO
+        if(optionalMenuItems == ""){
+            MainScriptCallback("Units")
+        }
+        else{
+            newMenu = optionalMenuItems.split(':')
+            CreateMenu("Units",newMenu)
+        }
+    }else if(menu == MainMenu1[2]){                     //Testing
+        newMenu = ["Weapons","Vehicles","Gears"]
+        CreateMenu("Shop",newMenu)
+    }else if(menu == MainMenu1[3]){
+        newMenu = []
+        if(optionalMenuItems == ""){
+            MainScriptCallback("Inventory")
+        }
+        else{                                           //Testing
+            var itemcounts = optionalMenuItems.split(':')
+            while(itemcounts.length<3){
+                itemcounts.push("0")
+            }
+            ShopPanel(menu,itemcounts)
+        }
+        CreateMenu("Inventory",newMenu)
+    }else if(menu == MainMenu1[4]){                     //TODO
+        newMenu = ["Team","Role","Character","Type"]
+        CreateMenu("Settings",newMenu)
+    }else if(menu == "Weapons"){
+        newMenu = weaponTypes
+        CreateMenu("Weapons",newMenu)
+    }else if(menu == "Vehicles"){
+        newMenu = vehicleTypes
+        CreateMenu("Vehicles",newMenu)
+    }else if(menu == "Gears"){
+        newMenu = ["Products"]
+        CreateMenu("Gears",newMenu)
+    }else if(menu == "Team"){
+        CreateSoldier = [0,0,0,0]
+        TeamSelection("menudiv")
+    }else if(menu == "Role"){
         try{
-            section_right.removeChild(firstChild);
+            document.getElementById("menudiv").remove()
+        }catch{}
+        CreateSoldier[3] = 0
+        RoleSelection()
+    }else if(menu == "Character"){
+        if(CreateSoldier[0]==1){
+            newMenu = [Units[0],Units[1],Units[2],Units[3],Units[4]]
         }
-        catch{}
-    }
-    var sec1 = document.createElement("SECTION")
-    sec1.id = "threerightone"
-    sec1.style.border = "2px solid #000000"
-    section_right.appendChild(sec1)
-    var sec2 = document.createElement("SECTION")
-    sec2.id = "threerighttwo"
-    sec2.style.border = "2px solid #000000"
-    section_right.appendChild(sec2)
-    TeamList(team1, teams[0],sec1,2)
-    TeamList(team2, teams[1],sec2,2)
-}
-function TeamList(data, team, parent, columns){
-
-    if(columns === 2){
-        var listOffset = 3
-        var players = data.split(':');
-        var h2 = document.createElement("h2");
-        var h2text = document.createTextNode(team.toString());
-        h2.appendChild(h2text);
-        parent.appendChild(h2);
-        for(var i = listOffset; i<players.length + listOffset; i+2){
-            var unit = players[i-listOffset]
-            var playerName = players[i-listOffset+1]
-            playerListCObj(parent,"left",unit,i * 4)
-            playerListCObj(parent,"right",playerName,i * 4)
+        else{
+            newMenu = [Units[5],Units[6],Units[7],Units[8],Units[9]]
         }
-    }
-    else if(columns === 3){
-
+        CreateMenu("Select Character",newMenu)
+    }else if(menu == "Type"){
+        newMenu = UnitTypes
+        CreateMenu("Select Type",newMenu)
+    }else if(UnitTypes.includes(menu)){
+        CreateSoldier[2] = UnitTypes.indexOf(menu)
+        console.log(CreateSoldier[2])
+        message = `type:${CreateSoldier[2]}`
+        MainScriptCallback(message)
+    }else if(Units.includes(menu)){
+        var index = Units.indexOf(menu)
+        if(index>=5){index = index - 5}
+        CreateSoldier[1] = index
+        console.log(Units.indexOf(menu) + " " + CreateSoldier[1].toString())
+        var message = `unit:${CreateSoldier[0]}:${CreateSoldier[1]}`
+        MainScriptCallback(message)
+    }else{
+        ShopPanel(menu)
     }
 }
-function playerListCObj(parent, position, text, heightT){
-    var p = document.createElement("h5")
-        p.style.display = "block"
-        p.style.position = "absolute"
-        if(position === "left"){
-            p.style.left = "0%"
-            p.style.padding = "0 0 0 5%"
-        }else if(position === "right"){
-            p.style.right = "0%"
-            p.style.padding = "0 5% 0 0"
-        }else if(position === "center"){
-            p.style.left = "40%"
-            p.style.padding = "0 5% 0 5%"
+function ShopPanel(menu,additionalList){
+    var Pistols = ["Ap Pistol","Combat Pistol","Pistol","Pistol 50","Revolver",
+    "Revolver Mk2","Sns Pistol","Sns Pistol Mk2","Vintage Pistol","Marksman Pistol"]
+    var pistolPrices = [500,600,300,400,600,500,700,600,800,500]
+    var Shotguns = ["Assault Shotgun","Bullpup Shotgun","Heavy Shotgun", 
+    "Musket","Pump Shotgun"]
+    var shotgunPrices = [1200,900,1300,600,700]
+    var SMG = ["Assault SMG","Combat PDW","Machine Pistol", 
+    "Micro SMG","Mini SMG","SMG","SMG Mk2"]
+    var smgPrices = [1300,1300,900,1100,1000,1400,1800]
+    var LMG = ["Combat MG","Combat MG Mk2","Gusenberg", 
+    "MG"]
+    var lmgPrices = [1800,2300,1500,1700]
+    var Rifle = ["Advanced Rifle","Assault Rifle","Assault Rifle Mk2", "Bullpup Rifle","Bullpup Rifle Mk2",
+    "Carbine Rifle","Carbine Rifle Mk2","Compact Rifle","Special Carbine","Special Carbine Mk2"]
+    var riflePrices = [1800,1500,2000,1700,2200,1800,2300,1400,1600,2100]
+    var Sniper = ["Heavy Sniper","Heavy Sniper Mk2","Marksman Rifle", "MarksmanRifle Mk2","Sniper Rifle"]
+    var sniperPrices = [2200,3200,1800,2800,1500]
+    var Throwable = ["BZGas","Grenade","Molotov", "Proximity Mine","Smoke Grenade","Sticky Bomb"]
+    var throwablePrices = [500,600,600,1000,400,1300]
+    var Launchers = ["Compact Grenade Launcher","Homing Launcher","RPG"]
+    var launcherPrices = [3000,5000,4000]
+    var Special = ["Fire Extinguisher","Flashlight","Knife", "PetrolCan","Wrench"]
+    var specialPrices = [400,100,400,300,1000]
+    var LandVehicles = ["Apc","Barracks","Barracks Semi","Barrage","Chernobog","Crusader","Half-Track",
+    "Rhino","Vetir","Insurgent","Winky","Squaddie"]
+    var landvehiclePrices = [8000,4000,4500,6000,10000,3500,8500,15000,3000,4000,5000,1000]
+    var Planes = ["Avenger","Bombushka","Hydra","Lazer","Molotok","Nokota","Starling",
+    "Strikeforce","Titan","Tula","Volatol"]
+    var planePrices = [15000,18000,55000,40000,30000,25000,25000,30000,20000,25000,25000]
+    var Helicopters = ["Akula","Annihilator","Annihilator Stealth","Cargobob","Hunter","Savage","Valkyrie"]
+    var helicopterPrices = [25000,30000,35000,10000,45000,45000,20000]
+    var Boats = ["Weaponized Dinghy","Patrol Boat","Seashark"]
+    var boatPrices = [3000,6000,1000]
+    var SpecialVehicles = ["Anti-Aircraft","Bulldozer","Enduro","Manchez","Scorcher","Verus"]
+    var specialvehPrices = [3000,3000,1000,1200,300,1300]
+    var Gears = ["MedKit","Armour","NightVision"]
+    var gearPrices = [200,300,500]
+    if(menu == "Pistols"){
+        CreateShopPanel(Pistols,pistolPrices, menu, true)
+    }else if(menu == "Shotguns"){
+        CreateShopPanel(Shotguns, shotgunPrices, menu, true)
+    }else if(menu == "SMG"){
+        CreateShopPanel(SMG, smgPrices, menu, true)
+    }else if(menu == "LMG"){
+        CreateShopPanel(LMG, lmgPrices, menu, true)
+    }else if(menu == "Rifle"){
+        CreateShopPanel(Rifle, riflePrices, menu, true)
+    }else if(menu == "Sniper"){
+        CreateShopPanel(Sniper, sniperPrices, menu, true)
+    }else if(menu == "Throwable"){
+        CreateShopPanel(Throwable, throwablePrices, menu, true)
+    }else if(menu == "Launchers"){
+        CreateShopPanel(Launchers, launcherPrices, menu, true)
+    }else if(menu == "Special"){
+        CreateShopPanel(Special, specialPrices, menu, true)
+    }else if(menu == "Land Vehicles"){
+        CreateShopPanel(LandVehicles, landvehiclePrices, menu, true)
+    }else if(menu == "Planes"){
+        CreateShopPanel(Planes, planePrices, menu, true)
+    }else if(menu == "Helicopters"){
+        CreateShopPanel(Helicopters, helicopterPrices, menu, true)
+    }else if(menu == "Boats"){
+        CreateShopPanel(Boats, boatPrices, menu, true)
+    }else if(menu == "Special Vehicles"){
+        CreateShopPanel(SpecialVehicles, specialvehPrices, menu, true)
+    }else if(menu == "Products"){
+        CreateShopPanel(Gears, gearPrices, menu, true)
+    }else if(menu == MainMenu1[3]){
+        CreateShopPanel(Gears, additionalList, menu, false)
+    }
+}
+function CreateShopPanel(products, counts, menu, isPrice){
+    try{
+        document.getElementById("shoppanel").remove()
+    }catch{}
+    var div = AddDiv(article,25,7,75,93,col3,"")
+    div.id = "shoppanel"
+    var posX = 5
+    var posY = 5
+    for(var i = 0; i<products.length;i++){
+        if(isPrice==true){AddObject(div,"h2",products[i],`Price: ${counts[i]}`,posX,posY,15,15,true,2,2,col1,col3,BuyObject,menu,i)}
+        else{AddObject(div,"h2",products[i],`${counts[i]} kpl`,posX,posY,15,15,true,2,2,col1,col3,BuyObject,menu,i)}
+        posX+=30
+        if(posX>=90){
+            posX = 5
+            posY += 20
         }
-        p.style.cursor = "pointer";
-        p.style.top = (heightT).toString() + "%"
-        var ptext = document.createTextNode(text)
-        p.appendChild(ptext);
-        parent.appendChild(p);
+    }
+}
+function BuyObject(menu,index){
+    if(menu == "Pistols"){
+        var message = "gun:0:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Shotguns"){
+        var message = "gun:1:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "SMG"){
+        var message = "gun:2:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "LMG"){
+        var message = "gun:3:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Rifle"){
+        var message = "gun:4:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Sniper"){
+        var message = "gun:5:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Throwable"){
+        var message = "gun:6:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Launchers"){
+        var message = "gun:7:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Special"){
+        var message = "gun:8:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Land Vehicles"){
+        var message = "vehicle:1:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Planes"){
+        var message = "vehicle:2:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Helicopters"){
+        var message = "vehicle:3:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Boats"){
+        var message = "vehicle:4:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Special Vehicles"){
+        var message = "vehicle:5:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == "Products"){
+        var message = "item:" + index.toString();
+        MainScriptCallback(message)
+    }else if(menu == MainMenu1[3]){
+
+    }
+}
+function CloseNUI(){
+    MainScriptCallback('close')
+    Hideobj(article, true)
 }
