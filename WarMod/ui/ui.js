@@ -49,7 +49,7 @@ window.addEventListener("message", (event) =>{
     }else if(data.action.includes("menuitems")){
         var objects = data.action.split(':');
         InventoryItems = []
-        InventoryItems.push[Number(objects[1]),Number(objects[2]),Number(objects[2])]
+        InventoryItems.push[Number(objects[1]),Number(objects[2]),Number(objects[3]),Number(objects[4])]
     }
 })
 
@@ -384,7 +384,7 @@ function MenuFunctions(menu,optionalMenuItems){
         }
         else{                                           //Testing
             var itemcounts = optionalMenuItems.split(':')
-            while(itemcounts.length<3){
+            while(itemcounts.length<4){
                 itemcounts.push("0")
             }
             ShopPanel(menu,itemcounts)
@@ -473,8 +473,8 @@ function ShopPanel(menu,additionalList){
     var boatPrices = [3000,6000,1000]
     var SpecialVehicles = ["Anti-Aircraft","Bulldozer","Enduro","Manchez","Scorcher","Verus"]
     var specialvehPrices = [3000,3000,1000,1200,300,1300]
-    var Gears = ["MedKit","Armour","NightVision"]
-    var gearPrices = [200,300,500]
+    var Gears = ["MedKit","Armour","NightVision","ThermalVision"]
+    var gearPrices = [200,300,500,800]
     if(menu == "Pistols"){
         CreateShopPanel(Pistols,pistolPrices, menu, true)
     }else if(menu == "Shotguns"){
