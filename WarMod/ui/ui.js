@@ -530,51 +530,52 @@ function CreateShopPanel(products, counts, menu, isPrice){
 function BuyObject(menu,index){
     if(menu == "Pistols"){
         var message = "gun:0:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Shotguns"){
         var message = "gun:1:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "SMG"){
         var message = "gun:2:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "LMG"){
         var message = "gun:3:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Rifle"){
         var message = "gun:4:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Sniper"){
         var message = "gun:5:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Throwable"){
         var message = "gun:6:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Launchers"){
         var message = "gun:7:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Special"){
         var message = "gun:8:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Land Vehicles"){
         var message = "vehicle:1:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Planes"){
         var message = "vehicle:2:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Helicopters"){
         var message = "vehicle:3:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Boats"){
         var message = "vehicle:4:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Special Vehicles"){
         var message = "vehicle:5:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == "Products"){
         var message = "item:" + index.toString();
-        MainScriptCallback(message)
+        MainScriptCallback(message,"")
     }else if(menu == MainMenu1[3]){
-
+        MainScriptCallback(`inventory:${index}`,"")
+        MainScriptCallback("Inventory","")
     }
 }
 function CloseNUI(){
