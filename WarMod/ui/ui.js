@@ -46,10 +46,6 @@ window.addEventListener("message", (event) =>{
         var team1 = data.action.split(';')[1];
         var team2 = data.action.split(';')[2];
         CreatePlayersColumnRight(team1, team2);
-    }else if(data.action.includes("menuitems")){
-        var objects = data.action.split(':');
-        InventoryItems = []
-        InventoryItems.push[Number(objects[1]),Number(objects[2]),Number(objects[3]),Number(objects[4])]
     }
 })
 
@@ -473,7 +469,7 @@ function ShopPanel(menu,additionalList){
     var boatPrices = [3000,6000,1000]
     var SpecialVehicles = ["Anti-Aircraft","Bulldozer","Enduro","Manchez","Scorcher","Verus"]
     var specialvehPrices = [3000,3000,1000,1200,300,1300]
-    var Gears = ["MedKit","Armour","NightVision","ThermalVision"]
+    var Gears = ["MedKit","Armour","Night Vision","Thermal Vision"]
     var gearPrices = [200,300,500,800]
     if(menu == "Pistols"){
         CreateShopPanel(Pistols,pistolPrices, menu, true)
