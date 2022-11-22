@@ -59,7 +59,7 @@ function TeamSelection(optionalDestroy){
         document.getElementById(optionalDestroy).remove()
         CreateSoldier[0] = 0
     }
-    var teamsdiv = AddDiv(article,0,0,100,95,"","")
+    var teamsdiv = AddDiv(article,0,0,100,95,"","","")
     teamsdiv.id = "teamsdiv"
     var div = AddDiv(teamsdiv,0,25,50,50,col1,col2,CharacterSelection,"")
     var div2 = AddDiv(teamsdiv,50,25,50,50,col1,col2,CharacterSelection,"")
@@ -80,7 +80,7 @@ function CharacterSelection(optionalDestroy){
     else{
         document.getElementById("teamsdiv").remove();
     }
-    var unitsDiv = AddDiv(article,0,7,100,10,"",col3)
+    var unitsDiv = AddDiv(article,0,7,100,10,"",col3,"")
     unitsDiv.id = "unitsdiv"
     var index = 0
     if(CreateSoldier[0]===2)
@@ -109,7 +109,7 @@ function UnitTypeSelection(optionalDestroy){
         else{
             document.getElementById("unitsdiv").remove();
         }
-        var UnitTypeDiv = AddDiv(article,0,7,100,10,"",col3)
+        var UnitTypeDiv = AddDiv(article,0,7,100,10,"",col3,"")
         UnitTypeDiv.id = "unittypediv"
         var posX = 10;
         for(var i = 0; i<UnitTypes.length;i++){
@@ -130,7 +130,7 @@ function RoleSelection(){
         try{
             document.getElementById("unittypediv").remove();
         }catch{}
-        var RolesDiv = AddDiv(article,0,7,100,10,"",col3)
+        var RolesDiv = AddDiv(article,0,7,100,10,"",col3,"")
         RolesDiv.id = "rolesdiv"
         var posX = 10;
         for(var i = 0; i< Roles.length; i++){
@@ -169,7 +169,9 @@ function AddDiv(parent,posX,posY,width,height,hlcol,basecol,callback,param1,para
         }
     })
     div.addEventListener("click", function(){
-        callback(param1,param2)
+        if(callback!=""){
+            callback(param1,param2)
+        }
     })
     div.style.backgroundColor = `rgba(${basecol},0.8)`
     div.style.display = "block"
@@ -338,7 +340,7 @@ function CreateMenu(optionalName,objects){
     try{
         document.getElementById("menudiv").remove()
     }catch{}
-    var div = AddDiv(article,0,7,25,93,col3,"")
+    var div = AddDiv(article,0,7,25,93,col3,"","")
     div.id = "menudiv"
     var text ="Menu"
     if(optionalName!=""){text = optionalName}
@@ -511,7 +513,7 @@ function CreateShopPanel(products, counts, menu, isPrice){
     try{
         document.getElementById("shoppanel").remove()
     }catch{}
-    var div = AddDiv(article,25,7,75,93,col3,"")
+    var div = AddDiv(article,25,7,75,93,col3,"","")
     div.id = "shoppanel"
     var posX = 5
     var posY = 5
